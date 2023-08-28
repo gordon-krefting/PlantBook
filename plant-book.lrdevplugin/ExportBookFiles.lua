@@ -24,6 +24,8 @@ end)
 
 function ExportBookData(collection)
   logger:trace("Exporting data for " .. collection:getName())
+
+  -- Create the data file
   photo_records = {}
   for _, photo in ipairs(collection:getPhotos()) do
     local photo_record = {}
@@ -42,14 +44,33 @@ function ExportBookData(collection)
   file:write(json:encode_pretty(photo_records))
   file:close()
 
-  -- Do the export
+  -- Do the image export
   local params = {}
   params.LR_format = "JPEG"
+  params.LR_jpeg_quality = 1
   params.LR_export_destinationType = "specificFolder"
-  params.LR_export_destinationPathPrefix = "/Users/gkreftin/temp/test"
-  params.LR_export_useSubfolder = false
+  params.LR_export_destinationPathPrefix = "/Users/gkreftin/temp"
+  params.LR_export_useSubfolder = true
+  params.LR_export_destinationPathSuffix = "images"
+  params.LR_size_doConstrain = true
+  params.LR_size_doNotEnlarge = true
+  params.LR_size_maxHeight = 500
+  params.LR_size_maxWidth  = 500
+  params.LR_collisionHandling  = "overwrite"
+
 
   local exportSession = LrExportSession {
+    photosToExport = collection:getPhotos(),
+    exportSettings = params,
+  }
+  exportSession:doExportOnCurrentTask()
+
+  -- Do it again... for thumbnails
+  params.LR_export_destinationPathSuffix = "thumbs"
+  params.LR_size_maxWidth  = 100
+  params.LR_size_maxHeight = 100
+  
+  exportSession = LrExportSession {
     photosToExport = collection:getPhotos(),
     exportSettings = params,
   }

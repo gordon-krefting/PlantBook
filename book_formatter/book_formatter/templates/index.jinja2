@@ -1,0 +1,11 @@
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <h1>Krefting Plant Guide</h1>
+  <ul>
+{% for p in photo_records %}
+    <li>{{p.scientificName}} / {{p.commonName}}</li>
+{% endfor %}
+  </ul>
+</html>
