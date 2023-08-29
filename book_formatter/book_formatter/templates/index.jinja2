@@ -1,11 +1,26 @@
 <html lang="en-US">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"i/>
+    <title>Krefting Plant Guide</title>
   </head>
   <h1>Krefting Plant Guide</h1>
+  <h2>All Identified Plants</h2>
   <ul>
-{% for p in photo_records %}
-    <li>{{p.scientificName}} / {{p.commonName}}</li>
+{% for p in plants %}
+	<li>{{p.scientific_name}} / {{p.common_name}}
+		<ul>
+{%     for photo in p.photos %}
+			<img src="images/{{photo}}"/>
+{%     endfor %}
+		</ul>
+	</li>
+
+{% endfor %}
+  </ul>
+  <h2>Needs ID</h2>
+  <ul>
+{% for r in unidentified_photos %}
+    <li><img src="images/{{r.fileName}}"/></li>
 {% endfor %}
   </ul>
 </html>
