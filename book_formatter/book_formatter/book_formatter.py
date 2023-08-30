@@ -1,5 +1,6 @@
 import json
 import os
+from jinja2 import Environment, PackageLoader
 
 
 class PhotoRecord:
@@ -100,6 +101,15 @@ def main():
     records = photos.plant_records
     for r in records:
         print(r.scientific_name, r.common_name, r.invasive, r.photos)
+
+    env = Environment(loader=PackageLoader('book_formatter', 'templates'))
+    template = env.get_template('index.jinja2')
+
+    with open('/Users/gkreftin/temp/index.html', 'w') as fh:
+        fh.write(template.render(
+            plants=photos.plant_records,
+            unidentified_photos=photos.unidentified_photos,
+        ))
 
 
 if __name__ == "__main__":
