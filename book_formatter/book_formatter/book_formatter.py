@@ -33,13 +33,14 @@ class PlantRecord:
         for r in records:
             if r.common_name and not self.common_name:
                 self.common_name = r.common_name
-            elif r.common_name != self.common_name:
+            elif r.common_name and r.common_name != self.common_name:
                 self.errors.add(
                     'Common name mismatch: %s != %s'
                     % (r.common_name, self.common_name))
+
             if r.plant_type and not self.plant_type:
                 self.plant_type = r.plant_type
-            elif r.plant_type != self.plant_type:
+            elif r.plant_type and r.plant_type != self.plant_type:
                 self.errors.add(
                     'Plant type mismatch: %s != %s'
                     % (r.plant_type, self.plant_type))

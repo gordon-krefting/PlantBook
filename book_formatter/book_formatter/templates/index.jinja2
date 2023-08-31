@@ -11,23 +11,35 @@
     </section>
     <section class="chapter">
       <h2>All Identified Plants</h2>
-{% for p in plants %}
+      {% for p in plants %}
       <section class="plantrecord">
         <h3>{{p.scientific_name}} / {{p.common_name}}</h3>
+        <dl>
+          <dt>Plant Type</dt>
+          <dd>{{p.plant_type}}</dd>
+          <dt>Locations</dt>
+          {% for l in p.locations %} 
+          <dd>{{l}}</dd>
+          {% endfor %}
+          {% if p.errors|length > 0 %}
+          <dt>Errors</dt>
+          <dd>{{p.errors}}</dd>
+          {% endif %}
+        </dl>
         <ul>
-    {% for photo in p.photos %}
+          {% for photo in p.photos %}
           <li><img src="images/{{photo}}" alt="{{p.scientific_name}}"></li>
-    {% endfor %}
+          {% endfor %}
         </ul>
       </section>
-{% endfor %}
+      {% endfor %}
     </section>
 
     <h2>Needs ID</h2>
     <ul>
-{% for r in unidentified_photos %}
+      {% for r in unidentified_photos %}
       <li><img src="images/{{r.filename}}" alt="Unidentified plant photo"></li>
-{% endfor %}
+      {% endfor %}
     </ul>
   </body>
 </html>

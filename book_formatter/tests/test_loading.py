@@ -22,7 +22,10 @@ def records():
     {"fileName": "8.NEF", "scientificName": "Foo bar3",
         "commonName": "foobar", "rating": 4, "plantType": "forbs"},
     {"fileName": "9.jpg", "scientificName": "Foo bar3",
-        "commonName": "foobarx", "rating": 3, "plantType": "trees"}
+        "commonName": "foobarx", "rating": 3, "plantType": "trees"},
+    {"fileName": "10.NEF", "scientificName": "Foo bar4", "rating": 4,
+        "commonName": "foobar", "plantType": "forbs"},
+    {"fileName": "11.NEF", "scientificName": "Foo bar4", "rating": 3}
 ]""")
 
 
@@ -55,7 +58,7 @@ def test_unidentified(photos):
 
 
 def test_plant_count(photos):
-    assert len(photos.plant_records) == 3
+    assert len(photos.plant_records) == 4
 
 
 def test_common_name_conflict(photos):
@@ -98,3 +101,13 @@ def test_location(photos):
 
 def test_missing_location(photos):
     assert 'Missing location' in photos.get_plant_record('Foo bar3').errors
+
+
+def test_empty_common_name_is_ok(photos):
+    r = photos.get_plant_record('Foo bar4')
+    assert 'Common name mismatch: None != foobar' not in r.errors
+
+
+def test_empty_plant_type_is_ok(photos):
+    r = photos.get_plant_record('Foo bar4')
+    assert 'Plant type mismatch: None != forbs' not in r.errors
