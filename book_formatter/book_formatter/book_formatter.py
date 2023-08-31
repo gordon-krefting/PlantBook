@@ -1,6 +1,8 @@
 import json
 import os
+import shutil
 from jinja2 import Environment, PackageLoader
+from os.path import dirname, join as joinpath
 
 
 class PhotoRecord:
@@ -98,10 +100,6 @@ def main():
 
     print(json.dumps(photos.scientific_names, indent=1))
 
-    records = photos.plant_records
-    for r in records:
-        print(r.scientific_name, r.common_name, r.invasive, r.photos)
-
     env = Environment(loader=PackageLoader('book_formatter', 'templates'))
     template = env.get_template('index.jinja2')
 
@@ -110,6 +108,9 @@ def main():
             plants=photos.plant_records,
             unidentified_photos=photos.unidentified_photos,
         ))
+
+    cssfile = joinpath(dirname(__file__), 'templates', 'plantbook.css')
+    shutil.copyfile(cssfile, '/Users/gkreftin/temp/plantbook.css')
 
 
 if __name__ == "__main__":

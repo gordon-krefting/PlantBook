@@ -1,26 +1,33 @@
+<!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <meta charset="utf-8"i/>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="plantbook.css">
     <title>Krefting Plant Guide</title>
   </head>
-  <h1>Krefting Plant Guide</h1>
-  <h2>All Identified Plants</h2>
-  <ul>
+  <body>
+    <section class="frontcover">
+      <h1>Krefting Plant Guide</h1>
+    </section>
+    <section class="chapter">
+      <h2>All Identified Plants</h2>
 {% for p in plants %}
-	<li>{{p.scientific_name}} / {{p.common_name}}
-		<ul>
-{%     for photo in p.photos %}
-			<img src="images/{{photo}}"/>
-{%     endfor %}
-		</ul>
-	</li>
+      <section class="plantrecord">
+        <h3>{{p.scientific_name}} / {{p.common_name}}</h3>
+        <ul>
+    {% for photo in p.photos %}
+          <li><img src="images/{{photo}}" alt="{{p.scientific_name}}"></li>
+    {% endfor %}
+        </ul>
+      </section>
+{% endfor %}
+    </section>
 
-{% endfor %}
-  </ul>
-  <h2>Needs ID</h2>
-  <ul>
+    <h2>Needs ID</h2>
+    <ul>
 {% for r in unidentified_photos %}
-    <li><img src="images/{{r.filename}}"/></li>
+      <li><img src="images/{{r.filename}}" alt="Unidentified plant photo"></li>
 {% endfor %}
-  </ul>
+    </ul>
+  </body>
 </html>
