@@ -16,21 +16,23 @@
         <h3>{{p.scientific_name}} / {{p.common_name}}</h3>
         <dl>
           <dt>Plant Type</dt>
-          <dd>{{p.plant_type}}</dd>
+          <dd>{{plant_types[p.plant_type]}}</dd>
           <dt>Locations</dt>
           {% for l in p.locations %} 
-          <dd>{{l}}</dd>
+          <dd>{{locations[l]}}</dd>
           {% endfor %}
           {% if p.errors|length > 0 %}
           <dt>Errors</dt>
           <dd>{{p.errors}}</dd>
           {% endif %}
         </dl>
-        <ul>
+        <table class="photo">
+          <tr>
           {% for photo in p.photos %}
-          <li><img src="images/{{photo}}" alt="{{p.scientific_name}}"></li>
+          <td><img src="images/{{photo}}" alt="{{p.scientific_name}}"></td>
           {% endfor %}
-        </ul>
+          </tr>
+        </table>
       </section>
       {% endfor %}
     </section>

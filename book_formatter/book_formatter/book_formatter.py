@@ -1,8 +1,13 @@
+import imagesize
 import json
 import os
 import shutil
+import values
 from jinja2 import Environment, PackageLoader
 from os.path import dirname, join as joinpath
+
+
+OUTPUT_DIR = '/Users/gkreftin/temp/'
 
 
 class PhotoRecord:
@@ -17,6 +22,8 @@ class PhotoRecord:
         self.rating = r.get('rating', 0)
         self.invasive = r.get('invasive', 'No')
         self.filename = os.path.splitext(r['fileName'])[0] + '.jpg'
+        self.width, self.height = imagesize.get(
+            OUTPUT_DIR + 'images/' + self.filename)
 
 
 class PlantRecord:
@@ -93,7 +100,7 @@ class PhotoCollection():
 
 
 def main():
-    f = open('/Users/gkreftin/temp/PhotoBook.json')
+    f = open(OUTPUT_DIR + 'PhotoBook.json')
     raw_records = json.load(f)
     f.close()
 
@@ -104,14 +111,16 @@ def main():
     env = Environment(loader=PackageLoader('book_formatter', 'templates'))
     template = env.get_template('index.jinja2')
 
-    with open('/Users/gkreftin/temp/index.html', 'w') as fh:
+    with open(OUTPUT_DIR + 'index.html', 'w') as fh:
         fh.write(template.render(
             plants=photos.plant_records,
             unidentified_photos=photos.unidentified_photos,
+            plant_types=values.PLANT_TYPES,
+            locations=values.LOCATIONS,
         ))
 
     cssfile = joinpath(dirname(__file__), 'templates', 'plantbook.css')
-    shutil.copyfile(cssfile, '/Users/gkreftin/temp/plantbook.css')
+    shutil.copyfile(cssfile, OUTPUT_DIR + 'plantbook.css')
 
 
 if __name__ == "__main__":

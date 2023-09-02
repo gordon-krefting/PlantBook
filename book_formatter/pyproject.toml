@@ -10,6 +10,7 @@ packages = [{include = "book_formatter"}]
 python = "^3.11"
 jinja2 = "^3.1.2"
 pytest = "^7.4.0"
+imagesize = "^1.4.1"
 
 
 [build-system]
