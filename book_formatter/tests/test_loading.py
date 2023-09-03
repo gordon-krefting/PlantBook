@@ -16,16 +16,20 @@ def records():
     {"fileName": "5.jpg", "scientificName": "Foo bar2",
         "rating": 3, "location": "back yard"},
     {"fileName": "6.jpg", "scientificName": "Foo bar2",
-        "rating": 3, "invasive": "Yes", "location": "front yard"},
+        "rating": 3, "invasive": "yes", "location": "front yard"},
     {"fileName": "7.jpg", "scientificName": "Foo bar2",
-        "rating": 3, "invasive": "No", "plantType": "forbs"},
+        "rating": 3, "invasive": "no", "plantType": "forbs"},
     {"fileName": "8.NEF", "scientificName": "Foo bar3",
         "commonName": "foobar", "rating": 4, "plantType": "forbs"},
     {"fileName": "9.jpg", "scientificName": "Foo bar3",
         "commonName": "foobarx", "rating": 3, "plantType": "trees"},
     {"fileName": "10.NEF", "scientificName": "Foo bar4", "rating": 4,
         "commonName": "foobar", "plantType": "forbs"},
-    {"fileName": "11.NEF", "scientificName": "Foo bar4", "rating": 3}
+    {"fileName": "11.NEF", "scientificName": "Foo bar4", "rating": 3},
+    {"fileName": "12.NEF", "scientificName": "i1", "rating": 3,
+        "invasive": "yes"},
+    {"fileName": "13.NEF", "scientificName": "i1", "rating": 4,
+        "invasive": "no"}
 ]""")
 
 
@@ -58,7 +62,7 @@ def test_unidentified(photos):
 
 
 def test_plant_count(photos):
-    assert len(photos.plant_records) == 4
+    assert len(photos.plant_records) == 5
 
 
 def test_common_name_conflict(photos):
@@ -74,7 +78,7 @@ def test_missing_common_name(photos):
 
 
 def test_invasive(photos):
-    assert photos.get_plant_record('Foo bar2').invasive
+    assert photos.get_plant_record('i1').invasive
 
 
 def test_not_invasive(photos):

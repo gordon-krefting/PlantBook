@@ -1,3 +1,8 @@
+# Should probably pull the "main" function out of this file and put it in
+# a separate file one directory up (e.g. "main.py").  Then this file can
+# be imported as a module and the main function can be called from the
+# command line. This will make packaging easier and I can take out the
+# silliness with the __init__.py files.
 # import imagesize
 import json
 import os
@@ -20,7 +25,7 @@ class PhotoRecord:
         self.plant_type = r.get('plantType')
         self.location = r.get('location')
         self.rating = r.get('rating', 0)
-        self.invasive = r.get('invasive', 'No')
+        self.invasive = r.get('invasive', 'no')
         self.filename = os.path.splitext(r['fileName'])[0] + '.jpg'
 #        self.width, self.height = imagesize.get(
 #            OUTPUT_DIR + 'images/' + self.filename)
@@ -51,8 +56,7 @@ class PlantRecord:
                 self.errors.add(
                     'Plant type mismatch: %s != %s'
                     % (r.plant_type, self.plant_type))
-
-            self.invasive = r.invasive == "Yes" or self.invasive
+            self.invasive = r.invasive == "yes" or self.invasive
 
             if r.location:
                 self.locations.add(r.location)
@@ -115,8 +119,6 @@ def main():
         fh.write(template.render(
             plants=photos.plant_records,
             unidentified_photos=photos.unidentified_photos,
-            # plant_types=values.PLANT_TYPES,
-            # locations=values.LOCATIONS,
             plant_types=PLANT_TYPES,
             locations=LOCATIONS,
         ))
