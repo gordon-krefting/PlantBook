@@ -54,8 +54,8 @@ function ExportBookData(collection)
   params.LR_export_destinationPathSuffix = "images"
   params.LR_size_doConstrain = true
   params.LR_size_doNotEnlarge = true
-  params.LR_size_maxHeight = 500
-  params.LR_size_maxWidth  = 500
+  params.LR_size_maxHeight = 2500
+  params.LR_size_maxWidth  = 2500
   params.LR_collisionHandling  = "overwrite"
 
 
@@ -67,8 +67,8 @@ function ExportBookData(collection)
 
   -- Do it again... for thumbnails
   params.LR_export_destinationPathSuffix = "thumbs"
-  params.LR_size_maxWidth  = 100
-  params.LR_size_maxHeight = 100
+  params.LR_size_maxWidth  = 150
+  params.LR_size_maxHeight = 150
   
   exportSession = LrExportSession {
     photosToExport = collection:getPhotos(),
