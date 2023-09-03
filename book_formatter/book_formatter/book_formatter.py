@@ -1,8 +1,8 @@
-import imagesize
+# import imagesize
 import json
 import os
 import shutil
-import values
+from values import LOCATIONS, PLANT_TYPES
 from jinja2 import Environment, PackageLoader
 from os.path import dirname, join as joinpath
 
@@ -22,8 +22,8 @@ class PhotoRecord:
         self.rating = r.get('rating', 0)
         self.invasive = r.get('invasive', 'No')
         self.filename = os.path.splitext(r['fileName'])[0] + '.jpg'
-        self.width, self.height = imagesize.get(
-            OUTPUT_DIR + 'images/' + self.filename)
+#        self.width, self.height = imagesize.get(
+#            OUTPUT_DIR + 'images/' + self.filename)
 
 
 class PlantRecord:
@@ -115,8 +115,10 @@ def main():
         fh.write(template.render(
             plants=photos.plant_records,
             unidentified_photos=photos.unidentified_photos,
-            plant_types=values.PLANT_TYPES,
-            locations=values.LOCATIONS,
+            # plant_types=values.PLANT_TYPES,
+            # locations=values.LOCATIONS,
+            plant_types=PLANT_TYPES,
+            locations=LOCATIONS,
         ))
 
     cssfile = joinpath(dirname(__file__), 'templates', 'plantbook.css')
