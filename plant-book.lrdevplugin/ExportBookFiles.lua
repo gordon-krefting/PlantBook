@@ -37,9 +37,7 @@ function ExportBookData(collection)
     photo_record.rating = photo:getFormattedMetadata("rating")
     photo_record.fileName = photo:getFormattedMetadata("fileName")
     table.insert(photo_records, photo_record)
-    --logger:trace(json:encode_pretty(photo_record))
   end
-  --logger:trace(json:encode_pretty(photo_records))
   local file = assert(io.open("/Users/gkreftin/temp/PhotoBook.json", "w"))
   file:write(json:encode_pretty(photo_records))
   file:close()
@@ -67,7 +65,6 @@ function ExportBookData(collection)
 
   -- Do it again... for thumbnails
   params.LR_export_destinationPathSuffix = "thumbs"
-  params.LR_size_maxWidth  = 150
   params.LR_size_maxHeight = 150
   
   exportSession = LrExportSession {

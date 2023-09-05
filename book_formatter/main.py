@@ -15,6 +15,7 @@ def main():
     f.close()
 
     photos = PhotoCollection(raw_records)
+    photos.init_image_sizes()
 
     print(json.dumps(photos.scientific_names, indent=1))
 
@@ -34,6 +35,14 @@ def main():
         'book_formatter/templates',
         'plantbook.css')
     shutil.copyfile(cssfile, OUTPUT_DIR + 'plantbook.css')
+    photoswipedir = joinpath(
+        dirname(__file__),
+        'book_formatter/templates',
+        'photoswipe')
+    shutil.copytree(
+        photoswipedir,
+        OUTPUT_DIR + 'photoswipe',
+        dirs_exist_ok=True)
 
 
 if __name__ == "__main__":

@@ -1,9 +1,4 @@
-# Should probably pull the "main" function out of this file and put it in
-# a separate file one directory up (e.g. "main.py").  Then this file can
-# be imported as a module and the main function can be called from the
-# command line. This will make packaging easier and I can take out the
-# silliness with the __init__.py files.
-# import imagesize
+import imagesize
 import os
 
 
@@ -22,8 +17,12 @@ class PhotoRecord:
         self.rating = r.get('rating', 0)
         self.invasive = r.get('invasive', 'no')
         self.filename = os.path.splitext(r['fileName'])[0] + '.jpg'
-#        self.width, self.height = imagesize.get(
-#            OUTPUT_DIR + 'images/' + self.filename)
+
+    def init_image_sizes(self):
+        self.width, self.height = imagesize.get(
+            OUTPUT_DIR + 'images/' + self.filename)
+        self.twidth, self.theight = imagesize.get(
+            OUTPUT_DIR + 'images/' + self.filename)
 
 
 class PlantRecord:
@@ -33,7 +32,9 @@ class PlantRecord:
         self.invasive = False
         self.plant_type = None
         self.locations = set()
+        # deprecate this
         self.photos = []
+        self.photo_records = []
         self.errors = set()
 
         records.sort(key=lambda r: r.rating, reverse=True)
@@ -57,6 +58,7 @@ class PlantRecord:
                 self.locations.add(r.location)
 
             self.photos.append(r.filename)
+            self.photo_records.append(r)
 
         if self.common_name is None:
             self.errors.add('Missing common name')
@@ -90,6 +92,11 @@ class PhotoCollection():
         for scientific_name in self.scientific_names:
             self.plant_records.append(
                 PlantRecord(self.grouped_photos[scientific_name]))
+
+    def init_image_sizes(self):
+        for r in self.plant_records:
+            for photo in r.photo_records:
+                photo.init_image_sizes()
 
     def get_plant_record(self, scientific_name):
         for r in self.plant_records:
