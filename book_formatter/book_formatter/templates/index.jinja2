@@ -39,7 +39,7 @@
         position: relative;
         display: flex;
         flex-wrap: wrap;
-        border: 1px solid red;
+        Xborder: 1px solid red;
       }
       .pswp__dynamic-caption {
         color: #fff;
@@ -131,6 +131,7 @@
       const lightbox = new PhotoSwipeLightbox({
         gallerySelector: '#gallery',
         childSelector: '.pswp-gallery__item',
+        bgOpacity: 0.9,
         
         // optionaly adjust viewport
         paddingFn: (viewportSize) => {
