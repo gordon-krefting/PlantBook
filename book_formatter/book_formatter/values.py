@@ -4,7 +4,7 @@ PLANT_TYPES = {
     'forb': 'Forbs',
     'fern': 'Ferns',
     'fungus': 'Fungi',
-    'grass': 'Grasses, Sedges, and Rushes',
+    'grass': 'Grasses, Sedges and Rushes',
     'vine': 'Vines',
 }
 

@@ -2,3 +2,27 @@
   size: 8.5in 11in;
   margin: 0;
 }
+
+.plant_caption {
+  color: black;
+}
+
+.plant_caption p {
+  margin: 0 0 0.5em 0;
+}
+
+.plant_caption .scientific_name {
+  font-style: italic;
+  font-size: 1.6em;
+  line-height: 1.1em;
+  text-indent: -1em;
+  padding-left: 1em;
+}
+
+.plant_caption .common_name {
+  font-weight: bold;
+  font-size: 1.8em;
+  line-height: 1.1em;
+  text-indent: -1em;
+  padding-left: 1em;
+}
