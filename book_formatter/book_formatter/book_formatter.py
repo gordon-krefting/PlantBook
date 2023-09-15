@@ -1,3 +1,4 @@
+import dateutil.parser
 import imagesize
 import os
 
@@ -17,12 +18,18 @@ class PhotoRecord:
         self.rating = r.get('rating', 0)
         self.invasive = r.get('invasive', 'no')
         self.filename = os.path.splitext(r['fileName'])[0] + '.jpg'
+        try:
+            self.date = dateutil.parser.isoparse(
+                r.get('dateTime', '')
+            ).strftime("%B %-d, %Y")
+        except ValueError:
+            self.date = None
 
     def init_image_sizes(self):
         self.width, self.height = imagesize.get(
             OUTPUT_DIR + 'images/' + self.filename)
-        self.twidth, self.theight = imagesize.get(
-            OUTPUT_DIR + 'images/' + self.filename)
+        self.thumbnail_width, self.thumbnail_height = imagesize.get(
+            OUTPUT_DIR + 'thumbs/' + self.filename)
 
 
 class PlantRecord:
@@ -57,8 +64,9 @@ class PlantRecord:
             if r.location:
                 self.locations.add(r.location)
 
-            self.photos.append(r.filename)
-            self.photo_records.append(r)
+            if r.rating > 0 or len(self.photo_records) == 0:
+                self.photos.append(r.filename)
+                self.photo_records.append(r)
 
         if self.common_name is None:
             self.errors.add('Missing common name')

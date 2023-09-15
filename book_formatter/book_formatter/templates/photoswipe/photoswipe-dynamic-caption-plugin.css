@@ -25,7 +25,9 @@
   padding: 20px 15px 20px 20px;
   margin-top: 50px;
   margin-left: 30px;
+  margin-right: 30px;
   background: #cccccc;
+  Xborder: 1px solid red;
 }
 
 .pswp__dynamic-caption--below {

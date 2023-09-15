@@ -26,3 +26,19 @@
   text-indent: -1em;
   padding-left: 1em;
 }
+
+.plant_listing .scientific_name {
+  font-style: italic;
+  font-size: 1em;
+  line-height: 1.1em;
+  text-indent: -1em;
+  padding-left: 1em;
+}
+
+.plant_listing .common_name {
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1.1em;
+  text-indent: -1em;
+  padding-left: 1em;
+}
