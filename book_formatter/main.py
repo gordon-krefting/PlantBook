@@ -28,6 +28,7 @@ def main():
             unidentified_photos=photos.unidentified_photos,
             plant_types=PLANT_TYPES,
             locations=LOCATIONS,
+            plant_collection=photos,
         ))
 
     cssfile = joinpath(
@@ -35,6 +36,7 @@ def main():
         'book_formatter/templates',
         'plantbook.css')
     shutil.copyfile(cssfile, OUTPUT_DIR + 'plantbook.css')
+
     photoswipedir = joinpath(
         dirname(__file__),
         'book_formatter/templates',
@@ -42,6 +44,15 @@ def main():
     shutil.copytree(
         photoswipedir,
         OUTPUT_DIR + 'photoswipe',
+        dirs_exist_ok=True)
+
+    tabsdir = joinpath(
+        dirname(__file__),
+        'book_formatter/templates',
+        'tabs')
+    shutil.copytree(
+        tabsdir,
+        OUTPUT_DIR + 'tabs',
         dirs_exist_ok=True)
 
 

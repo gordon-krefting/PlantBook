@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="pinterest" content="nopin" />
+    <link rel="stylesheet" href="./tabs/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="plantbook.css">
     <link rel="stylesheet" href="./photoswipe/dist/photoswipe.css">
@@ -19,7 +20,7 @@
         font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;
         font-size: 14px;
         line-height: 20px;
-        background: #eee;
+        background: #fff;
       }
       .pswp-gallery__item {
         margin: 0 4px 4px 0;
@@ -94,85 +95,56 @@
       </div>
   {%- endmacro %}
 
-  {% macro plantList(name, key, plants) -%}
+  {% macro plantList(key, plants) -%}
     <div class="container" id="gallery_{{key}}">
-    <h2>{{name}}</h2>
     {% for p in plants %}
       {{ plantEntry(p) }}
     {% endfor %}
     </div>
   {%- endmacro %}
 
-  {{ plantList("All Plants", "all", plants) }}
 
-
-
-    <section class="chapter" id="gallery">
-      <h2>All Identified Plants</h2>
-      {% for p in plants %}
-      <section class="plantrecord">
-        <h3>{{p.scientific_name}} / {{p.common_name}}</h3>
-        {% if p.invasive %}
-        <p class="invasive">Invasive</p>
-        {% endif %}
-        <dl>
-          <dt>Plant Type</dt>
-          <dd>{{plant_types[p.plant_type]}}</dd>
-          <dt>Locations</dt>
-          {% for l in p.locations %} 
-          <dd>{{locations[l]}}</dd>
-          {% endfor %}
-          {% if p.errors|length > 0 %}
-          <dt>Errors</dt>
-          <dd>{{p.errors}}</dd>
-          {% endif %}
-        </dl>
-        <table class="photo">
-          <tr>
-          {% for photo in p.photo_records %}
-            <td>
-              <div class="pswp-gallery__item">
-              <a
-                href="images/{{photo.filename}}"
-                data-pswp-width="{{photo.width}}"
-                data-pswp-height="{{photo.height}}"
-                {% if loop.index > 6 %}style = "display:none"{% endif %}
-                target="_blank">
-              <img src="thumbs/{{photo.filename}}" alt="{{p.scientific_name}}" height="{{photo.thumbnail_height}}" width="{{photo.thumbnail_width}}"
-                   style="width: 150px; height: 150px; object-fit: cover;">
-              </a>
-	      <div class="pswp-caption-content">
-	      <div class="plant_caption">
-	      <p>{{plant_types[p.plant_type]}}</p>
-              <p class="scientific_name">{{p.scientific_name}}</p>
-              <p class="common_name">{{p.common_name}}</p>
-              <p>{{photo.date}}</p>
-              {% if p.invasive %}
-              <p class="invasive">Invasive</p>
-              {% endif %}
-              <dl>
-                <dt>Locations</dt>
-                {% for l in p.locations %}
-                <dd>{{locations[l]}}</dd>
-                {% endfor %}
-              </dl>
-	      </div>
-	      </div>
+    <div class="tab container">
+      <div class="tab__list">
+        <div class="tab__item">All Plants</div>
+        <div class="tab__item">By Location</div>
+        <div class="tab__item">By Type</div>
+      </div>
+      <div class="tab__content">
+        <div class="tab__content-item">{{ plantList("all", plants) }}</div>
+        <div class="tab__content-item tab">
+          <div class="tab__list">
+            {% for location in locations %}
+              <div class="tab__item">{{locations[location]}}</div>
+            {% endfor %}
+          </div>
+          <div class="tab__content">
+            {% for location in locations %}
+            <div class="tab__content-item">
+              {{ plantList(location, plant_collection.get_plants_by_location(location)) }}
             </div>
-          </td>
-          {% endfor %}
-          </tr>
-        </table>
-      </section>
-      {% endfor %}
-    </section>
+            {% endfor %}
+          </div>
+        </div>
+         <div class="tab__content-item tab">
+          <div class="tab__list">
+            {% for plant_type in plant_types %}
+              <div class="tab__item">{{plant_types[plant_type]}}</div>
+            {% endfor %}
+          </div>
+          <div class="tab__content">
+            {% for plant_type in plant_types %}
+            <div class="tab__content-item">
+            {{ plantList(plant_type, plant_collection.get_plants_by_type(plant_type)) }}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <h2>Needs ID</h2>
-    <ul>
-      {% for r in unidentified_photos %}
-      <li><img src="thumbs/{{r.filename}}" alt="Unidentified plant photo"></li>
-      {% endfor %}
-    </ul>
+
+
 
     <script type="module">
       import PhotoSwipeLightbox from '../photoswipe/dist/photoswipe-lightbox.esm.js';
@@ -184,26 +156,6 @@
       const largeScreenPadding = {
         top: 0, bottom: 0, left: 0, right: 30
       };
-      const lightbox = new PhotoSwipeLightbox({
-        showHideAnimationType: 'fade',
-        gallerySelector: '#gallery',
-        childSelector: '.pswp-gallery__item',
-        bgOpacity: 0.9,
-        
-        // optionally adjust viewport
-        paddingFn: (viewportSize) => {
-          return viewportSize.x < 700 ? smallScreenPadding : largeScreenPadding
-        },
-        pswpModule: () => import('./photoswipe/dist/photoswipe.esm.js')
-      });
-
-      const captionPlugin = new PhotoSwipeDynamicCaption(lightbox, {
-        mobileLayoutBreakpoint: 700,
-        type: 'aside',
-        mobileCaptionOverlapRatio: 1
-      });
-
-      lightbox.init();
 
       function createLightbox(tag) {
         const lightbox = new PhotoSwipeLightbox({
@@ -228,8 +180,15 @@
         lightbox.init();
       }
       createLightbox('all');
+      {% for plant_type in plant_types %}
+        createLightbox('{{ plant_type }}')
+      {% endfor %}
+      {% for location in locations %}
+        createLightbox('{{ location }}')
+      {% endfor %}
 
-      </script>
+    </script>
+    <script  src="./tabs/script.js"></script>
 
   </body>
 </html>

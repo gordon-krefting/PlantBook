@@ -111,3 +111,9 @@ class PhotoCollection():
             if r.scientific_name == scientific_name:
                 return r
         return None
+
+    def get_plants_by_type(self, plant_type):
+        return [r for r in self.plant_records if r.plant_type == plant_type]
+
+    def get_plants_by_location(self, location):
+        return [r for r in self.plant_records if location in r.locations]

@@ -115,3 +115,13 @@ def test_empty_common_name_is_ok(photos):
 def test_empty_plant_type_is_ok(photos):
     r = photos.get_plant_record('Foo bar4')
     assert 'Plant type mismatch: None != forbs' not in r.errors
+
+
+def test_get_plants_by_type(photos):
+    r = photos.get_plants_by_type('forbs')
+    assert 3 == len(r)
+
+
+def test_get_plants_by_location(photos):
+    r = photos.get_plants_by_location('front yard')
+    assert 2 == len(r)

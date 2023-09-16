@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+}
+
+Xbody {
+  font-family: "Nunito", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #777777;
+}
+
+.container {
+  width: 980px;
+  margin: 0 auto;
+  max-width: 100%;
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+Xsection {
+  background: rgba(240, 248, 255, 0.9);
+  padding: 100px 0;
+}
+
+.tab__list {
+  display: flex;
+  margin-bottom: 24px;
+}
+.tab__item {
+  overflow: hidden;
+  cursor: pointer;
+  padding: 12px 8px;
+  margin-right: 24px;
+  text-shadow: 0 0 0.5px currentColor;
+  letter-spacing: 1px;
+  transition: 0.2s;
+  font-size: 18px;
+  position: relative;
+  color: #777777;
+}
+.tab__item:before {
+  content: "";
+  position: absolute;
+  top: 95%;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #19d9b4;
+  transition: 0.2s;
+  visibility: hidden;
+  opacity: 0;
+}
+.tab__item.is--active {
+  color: #444;
+  position: relative;
+}
+.tab__item.is--active:before {
+  visibility: visible;
+  opacity: 1;
+}
+.tab__content {
+  Xpadding: 32px;
+  background: #ffffff;
+  border-radius: 0 10px 10px;
+}
+.tab__content-item {
+  display: none;
+}
+.tab__content-item.is--active {
+  display: block;
+}
+.tab__content-title {
+  padding: 24px 24px 24px 0;
+}
+
+.tab .tab .tab__item {
+  font-size: 16px;
+}
+.tab .tab .tab__content {
+  padding: 0;
+}
