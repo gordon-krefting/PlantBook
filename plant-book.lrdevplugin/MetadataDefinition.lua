@@ -32,10 +32,5 @@ return {
       {value='nonnative',    title="Non-native"},
       {value='invasive',     title="Invasive"},
     },},
-    {dataType="enum",   searchable=true, browsable=true, id="invasive",            title="Invasive",        version=1, values = {
-      {value=nil,            title="-"},
-      {value='no',           title="No"},
-      {value='yes',          title="Yes"},
-    },},
   },
 }

@@ -16,7 +16,6 @@ class PhotoRecord:
         self.plant_type = r.get('plantType')
         self.location = r.get('location')
         self.rating = r.get('rating', 0)
-        self.invasive = r.get('invasive', 'no')
         self.filename = os.path.splitext(r['fileName'])[0] + '.jpg'
         try:
             self.date = dateutil.parser.isoparse(
@@ -36,11 +35,8 @@ class PlantRecord:
     def __init__(self, records):
         self.scientific_name = records[0].scientific_name
         self.common_name = None
-        self.invasive = False
         self.plant_type = None
         self.locations = set()
-        # deprecate this
-        self.photos = []
         self.photo_records = []
         self.errors = set()
 
@@ -59,13 +55,11 @@ class PlantRecord:
                 self.errors.add(
                     'Plant type mismatch: %s != %s'
                     % (r.plant_type, self.plant_type))
-            self.invasive = r.invasive == "yes" or self.invasive
 
             if r.location:
                 self.locations.add(r.location)
 
             if r.rating > 0 or len(self.photo_records) == 0:
-                self.photos.append(r.filename)
                 self.photo_records.append(r)
 
         if self.common_name is None:

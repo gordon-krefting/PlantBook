@@ -79,9 +79,6 @@
               <p class="scientific_name">{{p.scientific_name}}</p>
               <p class="common_name">{{p.common_name}}</p>
               <p>{{photo.date}}</p>
-              {% if p.invasive %}
-              <p class="invasive">Invasive</p>
-              {% endif %}
               <dl>
                 <dt>Locations</dt>
                 {% for l in p.locations %}

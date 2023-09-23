@@ -16,9 +16,9 @@ def records():
     {"fileName": "5.jpg", "scientificName": "Foo bar2",
         "rating": 3, "location": "back yard"},
     {"fileName": "6.jpg", "scientificName": "Foo bar2",
-        "rating": 3, "invasive": "yes", "location": "front yard"},
+        "rating": 3, "nativity": "native", "location": "front yard"},
     {"fileName": "7.jpg", "scientificName": "Foo bar2",
-        "rating": 3, "invasive": "no", "plantType": "forbs"},
+        "rating": 3, "nativity": "invasive", "plantType": "forbs"},
     {"fileName": "8.NEF", "scientificName": "Foo bar3",
         "commonName": "foobar", "rating": 4, "plantType": "forbs"},
     {"fileName": "9.jpg", "scientificName": "Foo bar3",
@@ -75,14 +75,6 @@ def test_missing_common_name(photos):
     r = photos.get_plant_record('Foo bar2')
     assert not r.common_name
     assert 'Missing common name' in r.errors
-
-
-def test_invasive(photos):
-    assert photos.get_plant_record('i1').invasive
-
-
-def test_not_invasive(photos):
-    assert not photos.get_plant_record('Foo bar').invasive
 
 
 def test_plant_type(photos):
