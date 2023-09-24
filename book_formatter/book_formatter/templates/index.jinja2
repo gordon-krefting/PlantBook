@@ -51,10 +51,6 @@
     <h1>811 Laroe Plant Guide</h1>
     </div>
 
-
-
-
-
   {% macro plantEntry(p) -%}
       <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#dddddd;">
         <div class="column plant_listing">
@@ -74,19 +70,20 @@
                style="width: 150px; height: 150px; object-fit: cover;">
           </a>
           <div class="pswp-caption-content">
-	      <div class="plant_caption">
-	      <p>{{plant_types[p.plant_type]}}</p>
-              <p class="scientific_name">{{p.scientific_name}}</p>
-              <p class="common_name">{{p.common_name}}</p>
-              <p>{{photo.date}}</p>
-              <dl>
-                <dt>Locations</dt>
-                {% for l in p.locations %}
-                <dd>{{locations[l]}}</dd>
-                {% endfor %}
-              </dl>
-	      </div>
-              </div>
+	    <div class="plant_caption">
+	    <p>{{plant_types[p.plant_type]}}</p>
+            <p class="scientific_name">{{p.scientific_name}}</p>
+            <p class="common_name">{{p.common_name}}</p>
+            <p>{{photo.date}}</p>
+            <dl>
+              <dt>Locations</dt>
+              {% for l in p.locations %}
+              <dd>{{locations[l]}}</dd>
+              {% endfor %}
+            </dl>
+            {% if p.snippet %}<p>{{p.snippet}}</p>{% endif %}
+            </div>
+          </div>
         </div>
       {% endfor %}
       </div>

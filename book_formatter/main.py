@@ -16,6 +16,7 @@ def main():
 
     photos = PhotoCollection(raw_records)
     photos.init_image_sizes()
+    photos.init_snippets()
 
     print(json.dumps(photos.scientific_names, indent=1))
 

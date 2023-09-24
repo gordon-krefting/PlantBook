@@ -1,6 +1,7 @@
 import dateutil.parser
 import imagesize
 import os
+from snippets.snippets import SnippetGrabber
 
 
 OUTPUT_DIR = '/Users/gkreftin/temp/'
@@ -39,6 +40,7 @@ class PlantRecord:
         self.locations = set()
         self.photo_records = []
         self.errors = set()
+        self.snippet = None
 
         records.sort(key=lambda r: r.rating, reverse=True)
         for r in records:
@@ -99,6 +101,11 @@ class PhotoCollection():
         for r in self.plant_records:
             for photo in r.photo_records:
                 photo.init_image_sizes()
+
+    def init_snippets(self):
+        sg = SnippetGrabber("/Users/gkreftin/temp/snippets")
+        for r in self.plant_records:
+            r.snippet = sg.get_snippet(r.scientific_name)
 
     def get_plant_record(self, scientific_name):
         for r in self.plant_records:

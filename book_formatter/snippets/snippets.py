@@ -1,4 +1,6 @@
+import json
 import re
+import requests
 
 
 def _safename(name):
@@ -17,9 +19,37 @@ def _safename(name):
     return name.replace(' ', '_')
 
 
+def _get_remote_snippet(name):
+    url = 'https://en.wikipedia.org/api/rest_v1/page/summary/' + name
+    r = requests.get(url)
+    if r.status_code != 200:
+        raise ValueError('Could not get snippet for %s' % url
+                         + ' (status code %s)' % r.status_code)
+    j = json.loads(r.text)
+    return j['extract_html']
+
+
 class SnippetGrabber(object):
     def __init__(self, path):
         self.path = path
 
+    def _get_local_snippet(self, name):
+        try:
+            with open(self.path + '/' + _safename(name) + '.txt') as f:
+                return f.read()
+        except IOError:
+            return None
+
+    def _store_local_snippet(self, name, snippet):
+        with open(self.path + '/' + _safename(name) + '.txt', 'w') as f:
+            f.write(snippet)
+
     def get_snippet(self, name):
-        return 'Alliaria petiolata, or garlic mustard'
+        snippet = self._get_local_snippet(_safename(name))
+        if not snippet:
+            try:
+                snippet = _get_remote_snippet(_safename(name))
+                self._store_local_snippet(_safename(name), snippet)
+            except ValueError:
+                return None
+        return snippet

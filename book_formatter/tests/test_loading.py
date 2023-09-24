@@ -35,9 +35,6 @@ def records():
 
 @pytest.fixture
 def photos(records):
-    pc = PhotoCollection(records)
-    for r in pc.plant_records:
-        print(r)
     return PhotoCollection(records)
 
 
