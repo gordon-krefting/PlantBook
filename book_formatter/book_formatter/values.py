@@ -13,7 +13,7 @@ LOCATIONS = {
     'frontyard': 'Front Yard',
     'meadow': 'Meadow',
     'meadowgarden': 'Meadow Garden',
-    'pondarea': 'Pond Area',
+    'pondarea': 'The Pond',
     'slopegarden': 'Slope Garden',
-    'other': 'Other',
+    'other': 'The Woods',
 }

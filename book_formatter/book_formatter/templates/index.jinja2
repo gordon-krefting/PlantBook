@@ -52,13 +52,14 @@
     </div>
 
   {% macro plantEntry(p) -%}
+    <div style="margin-bottom:30px;">
       <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#dddddd;">
         <div class="column plant_listing">
         <p class="scientific_name">{{p.scientific_name}}</p>
         <p class="common_name">{{p.common_name}}</p>
         </div>
       </div>
-      <div class="row" style="border: solid #cccccc 1px; padding:20px; margin-bottom:30px; background:#eeeeee">
+      <div class="row" style="border: solid #cccccc 1px; padding:20px; background:#f8f8f8">
       {% for photo in p.photo_records %}
         <div class="col-sm-2  pswp-gallery__item">
           <a
@@ -71,7 +72,7 @@
           </a>
           <div class="pswp-caption-content">
 	    <div class="plant_caption">
-	    <p>{{plant_types[p.plant_type]}}</p>
+            <p>{{plant_types[p.plant_type]}}</p>
             <p class="scientific_name">{{p.scientific_name}}</p>
             <p class="common_name">{{p.common_name}}</p>
             <p>{{photo.date}}</p>
@@ -81,12 +82,17 @@
               <dd>{{locations[l]}}</dd>
               {% endfor %}
             </dl>
-            {% if p.snippet %}<p>{{p.snippet}}</p>{% endif %}
             </div>
           </div>
         </div>
       {% endfor %}
       </div>
+      {% if p.snippet %}
+      <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#f8f8f8;">
+        <div class="column plant_listing">{{p.snippet}}</div>
+      </div>
+      {% endif %}
+    </div>
   {%- endmacro %}
 
   {% macro plantList(key, plants) -%}
