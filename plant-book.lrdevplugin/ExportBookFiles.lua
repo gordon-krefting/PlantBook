@@ -40,6 +40,7 @@ function ExportBookData(collection)
     photo_record.caption = photo:getFormattedMetadata("caption")
     photo_record.title = photo:getFormattedMetadata("title")
     photo_record.dateTime = photo:getRawMetadata("dateTimeOriginalISO8601")
+    photo_record.nativity = photo:getPropertyForPlugin("org.krefting.plant-book", "nativity")
     table.insert(photo_records, photo_record)
   end
   local file = assert(io.open("/Users/gkreftin/temp/PhotoBook.json", "w"))
