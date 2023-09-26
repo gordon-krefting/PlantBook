@@ -9,23 +9,28 @@ def records():
     {"fileName": "1"},
     {"fileName": "2.NEF", "scientificName": "?",
         "commonName": "foobar", "rating": 3},
+
     {"fileName": "3.NEF", "scientificName": "Foo bar",
         "commonName": "foobar", "rating": 4},
     {"fileName": "4.jpg", "scientificName": "Foo bar",
         "commonName": "foobarx", "rating": 3, "location": "front yard"},
+
     {"fileName": "5.jpg", "scientificName": "Foo bar2",
         "rating": 3, "location": "back yard"},
     {"fileName": "6.jpg", "scientificName": "Foo bar2",
         "rating": 3, "nativity": "native", "location": "front yard"},
     {"fileName": "7.jpg", "scientificName": "Foo bar2",
         "rating": 3, "nativity": "invasive", "plantType": "forbs"},
-    {"fileName": "8.NEF", "scientificName": "Foo bar3",
+
+    {"fileName": "8.NEF", "scientificName": "Foo bar3", "nativity": "native",
         "commonName": "foobar", "rating": 4, "plantType": "forbs"},
     {"fileName": "9.jpg", "scientificName": "Foo bar3",
         "commonName": "foobarx", "rating": 3, "plantType": "trees"},
+
     {"fileName": "10.NEF", "scientificName": "Foo bar4", "rating": 4,
         "commonName": "foobar", "plantType": "forbs"},
     {"fileName": "11.NEF", "scientificName": "Foo bar4", "rating": 3},
+
     {"fileName": "12.NEF", "scientificName": "i1", "rating": 3,
         "invasive": "yes"},
     {"fileName": "13.NEF", "scientificName": "i1", "rating": 4,
@@ -60,6 +65,20 @@ def test_unidentified(photos):
 
 def test_plant_count(photos):
     assert len(photos.plant_records) == 5
+
+
+def test_nativity(photos):
+    assert photos.get_plant_record('Foo bar3').nativity == 'native'
+
+
+def test_no_nativity(photos):
+    assert not photos.get_plant_record('Foo bar').nativity
+
+
+def test_conflicting_nativity(photos):
+    r = photos.get_plant_record('Foo bar2')
+    assert 'native' == r.nativity
+    assert 'Nativity mismatch: invasive != native' in r.errors
 
 
 def test_common_name_conflict(photos):

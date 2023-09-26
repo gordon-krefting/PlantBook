@@ -14,6 +14,7 @@ class PhotoRecord:
         else:
             self.scientific_name = None
         self.common_name = r.get('commonName')
+        self.nativity = r.get('nativity')
         self.plant_type = r.get('plantType')
         self.location = r.get('location')
         self.rating = r.get('rating', 0)
@@ -33,6 +34,7 @@ class PhotoRecord:
 
 
 class PlantRecord:
+
     def __init__(self, records):
         self.scientific_name = records[0].scientific_name
         self.common_name = None
@@ -41,6 +43,7 @@ class PlantRecord:
         self.photo_records = []
         self.errors = set()
         self.snippet = None
+        self.nativity = None
 
         records.sort(key=lambda r: r.rating, reverse=True)
         for r in records:
@@ -50,6 +53,13 @@ class PlantRecord:
                 self.errors.add(
                     'Common name mismatch: %s != %s'
                     % (r.common_name, self.common_name))
+
+            if r.nativity and not self.nativity:
+                self.nativity = r.nativity
+            elif r.nativity and r.nativity != self.nativity:
+                self.errors.add(
+                    'Nativity mismatch: %s != %s'
+                    % (r.nativity, self.nativity))
 
             if r.plant_type and not self.plant_type:
                 self.plant_type = r.plant_type

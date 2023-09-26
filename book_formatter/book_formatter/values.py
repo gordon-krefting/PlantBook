@@ -17,3 +17,15 @@ LOCATIONS = {
     'slopegarden': 'Slope Garden',
     'other': 'The Woods',
 }
+
+NATIVITY_VALUES = {
+    'native': 'Native',
+    'nonnative': 'Non-Native',
+    'invasive': 'Invasive',
+}
+
+NATIVITY_LABELS = {
+    'native': 'text-bg-success',
+    'nonnative': 'text-bg-warning',
+    'invasive': 'text-bg-danger',
+}

@@ -39,7 +39,7 @@ def test_safename_backslash():
 
 def test_get_remote_snippet():
     assert _get_remote_snippet('Alliaria petiolata').startswith(
-        'Alliaria petiolata, or garlic mustard')
+        '<p><i><b>Alliaria petiolata</b></i>, or <b>garlic mustard')
 
 
 def test_get_bad_snippet():
@@ -59,6 +59,6 @@ def test_get_local_snippet(sg):
 def test_get_snippet(sg):
     """ first time, grabs from the web, second time, from local """
     assert sg.get_snippet('Alliaria petiolata').startswith(
-        'Alliaria petiolata, or garlic mustard')
+        '<p><i><b>Alliaria petiolata</b></i>, or <b>garlic mustard')
     assert sg.get_snippet('Alliaria petiolata').startswith(
-        'Alliaria petiolata, or garlic mustard')
+        '<p><i><b>Alliaria petiolata</b></i>, or <b>garlic mustard')

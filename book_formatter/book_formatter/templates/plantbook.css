@@ -1,6 +1,36 @@
-@page {
-  size: 8.5in 11in;
-  margin: 0;
+/* styles for the gallery */
+
+.pswp-gallery__item {
+  margin: 0 4px 4px 0;
+}
+.pswp-gallery__item img {
+  display: block;
+}
+.pswp-gallery {
+  max-width: 650px;
+  padding: 0 50px 50px;
+  background: #eee;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+.pswp__dynamic-caption {
+  color: #fff;
+  width: 100%;
+}
+.pswp__dynamic-caption a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ----------------------- */
+h1,h2 {
+  font-family: Georgia,Times,Times New Roman,serif;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 0;
 }
 
 .plant_caption {
@@ -28,6 +58,7 @@
 }
 
 .plant_listing .scientific_name {
+  font-family: Georgia,Times,Times New Roman,serif;
   font-style: italic;
   font-size: 1em;
   line-height: 1.1em;
@@ -35,10 +66,15 @@
   padding-left: 1em;
 }
 
-.plant_listing .common_name {
+.plant_listing .common_namex {
   font-weight: bold;
   font-size: 1.2em;
   line-height: 1.1em;
   text-indent: -1em;
   padding-left: 1em;
+}
+
+.plant_listing {
+  font-size: calc(1em * 1.2);
+  Xfont-family: sans-serif;
 }

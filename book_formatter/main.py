@@ -2,7 +2,9 @@
 import json
 import shutil
 from book_formatter.book_formatter import PhotoCollection
-from book_formatter.values import LOCATIONS, PLANT_TYPES
+from book_formatter.values import (
+    LOCATIONS, PLANT_TYPES, NATIVITY_VALUES, NATIVITY_LABELS
+)
 from jinja2 import Environment, PackageLoader
 from os.path import dirname, join as joinpath
 
@@ -29,6 +31,8 @@ def main():
             unidentified_photos=photos.unidentified_photos,
             plant_types=PLANT_TYPES,
             locations=LOCATIONS,
+            nativity_values=NATIVITY_VALUES,
+            nativity_labels=NATIVITY_LABELS,
             plant_collection=photos,
         ))
 
