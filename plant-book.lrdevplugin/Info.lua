@@ -17,4 +17,9 @@ return {
 
   LrMetadataProvider = 'MetadataDefinition.lua',
   LrMetadataTagsetFactory = 'Tagset.lua',
+
+  LrExportServiceProvider = {
+    title = "Plant Book",
+    file = "PublishServiceProvider.lua",
+  },
 }
