@@ -26,11 +26,13 @@ class PhotoRecord:
         except ValueError:
             self.date = None
 
-    def init_image_sizes(self):
+    def init_image_sizes(self, path):
         self.width, self.height = imagesize.get(
-            OUTPUT_DIR + 'images/' + self.filename)
+            os.path.join(path, 'images', self.filename)
+        )
         self.thumbnail_width, self.thumbnail_height = imagesize.get(
-            OUTPUT_DIR + 'thumbs/' + self.filename)
+            os.path.join(path, 'thumbs', self.filename)
+        )
 
 
 class PlantRecord:
@@ -107,13 +109,13 @@ class PhotoCollection():
             self.plant_records.append(
                 PlantRecord(self.grouped_photos[scientific_name]))
 
-    def init_image_sizes(self):
+    def init_image_sizes(self, path):
         for r in self.plant_records:
             for photo in r.photo_records:
-                photo.init_image_sizes()
+                photo.init_image_sizes(path)
 
-    def init_snippets(self):
-        sg = SnippetGrabber("/Users/gkreftin/temp/snippets")
+    def init_snippets(self, path):
+        sg = SnippetGrabber(os.path.join(path, 'snippets'))
         for r in self.plant_records:
             r.snippet = sg.get_snippet(r.scientific_name)
 
