@@ -139,8 +139,9 @@ end
 function exportServiceProvider.getCollectionBehaviorInfo(publishSettings)
   return {
     defaultCollectionName = "Plant Photos",
-    defaultCollectionCanBeDeleted = false,
-    canAddCollection = false,
+    defaultCollectionCanBeDeleted = true,
+    canAddCollection = true,
+    maxCollectionSetDepth = 0,
   }
 end
 
@@ -148,7 +149,7 @@ end
 -- the Photo Guide and the Photo Book are built
 exportServiceProvider.exportPresetFields = {
   {key = 'local_path', default = ''},
-  {key = 'remote_host', default = 'krefting.org'},
+  {key = 'remote_host', default = 'gkreftin@krefting.org'},
   {key = 'remote_path', default = ''},
 }
 
