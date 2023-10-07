@@ -87,7 +87,7 @@ def main():
     cmd = ['rsync',
            '-az',
            # '-vv',
-           '--stats',
+           # '--stats',
            '--delete',
            '--log-file=log/rsync.log',
            web_root + "/",  # trailing slash is important

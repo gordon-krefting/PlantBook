@@ -39,14 +39,14 @@
       </div>
       <div class="row" style="border: solid #cccccc 1px; padding:20px; background:#f8f8f8">
       {% for photo in p.photo_records %}
-        <div class="col-sm-2  pswp-gallery__item">
+        <div class="col-sm-2 pswp-gallery__item">
           <a
                 href="images/{{photo.filename}}"
                 data-pswp-width="{{photo.width}}"
                 data-pswp-height="{{photo.height}}"
                 target="_blank">
             <img src="thumbs/{{photo.filename}}" alt="{{p.scientific_name}}" height="{{photo.thumbnail_height}}" width="{{photo.thumbnail_width}}"
-               style="width: 150px; height: 150px; object-fit: cover;">
+              style="margin:10px; width: 150px; height: 150px; object-fit: cover;">
           </a>
           <div class="pswp-caption-content">
 	    <div class="plant_caption">

@@ -2,6 +2,7 @@
 
 book_formatter/main.sh
 logtail.sh
+publish.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,10 +1,11 @@
 /* styles for the gallery */
 
 .pswp-gallery__item {
-  margin: 0 4px 4px 0;
+  Xmargin: 0 4px 4px 0;
+  Xborder: 1px solid black;
 }
 .pswp-gallery__item img {
-  display: block;
+  Xdisplay: block;
 }
 .pswp-gallery {
   max-width: 650px;
