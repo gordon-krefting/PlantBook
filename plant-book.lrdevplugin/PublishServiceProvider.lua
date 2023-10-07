@@ -18,16 +18,17 @@ local exportServiceProvider = {}
 function exportServiceProvider.processRenderedPhotos(functionContext, exportContext)
   local exportSettings = assert(exportContext.propertyTable)
 
+  logger:info('------------------------------------------')
   logger:info('Starting processRenderedPhotos from Provider: ' .. exportSettings.LR_exportServiceProviderTitle)
   logger:info('Description: ' .. exportSettings.LR_publish_connectionName)
 
-  for k, v in pairs(exportContext) do
-    logger:trace(k, v)
-  end
+  --for k, v in pairs(exportContext) do
+  --  logger:trace(k, v)
+  --end
 
-  for k, v in exportSettings:pairs() do
-    logger:trace(k, v)
-  end
+  --for k, v in exportSettings:pairs() do
+  --  logger:trace(k, v)
+  --end
 
   local localPath = exportSettings.local_path
   assert(not(localPath == nil or localPath == '') , "Local path is required")
@@ -40,6 +41,7 @@ function exportServiceProvider.processRenderedPhotos(functionContext, exportCont
   publicHtml = LrPathUtils.child(localPath, "public_html")
   imagePath = LrPathUtils.child(publicHtml, "images")
   thumbPath = LrPathUtils.child(publicHtml, "thumbs")
+  mainShPath = LrPathUtils.child(LrPathUtils.parent(_PLUGIN.path), 'book_formatter/main.sh')
 
   LrFileUtils.createAllDirectories(snippetPath)
   LrFileUtils.createAllDirectories(jsonPath)
@@ -49,15 +51,9 @@ function exportServiceProvider.processRenderedPhotos(functionContext, exportCont
   local remoteHost = exportSettings.remote_host
   assert(not(remoteHost == nil or remoteHost == '') , "Remote host is required")
   
-  local mainShPath = exportSettings.main_sh_path
-  assert(not(mainShPath == nil or mainShPath == '') , "main.sh path  is required")
-  
   local remotePath = exportSettings.remote_path
   assert(not(remotePath == nil or remotePath == '') , "Remote path is required")
   
-  local password = exportSettings.password
-  assert(not(password == nil or password == '') , "Password is required")
-
   local thumbsToCreate = {}
   -- loop through all photos that have been modified since last publish,
   -- copying them to the local path
@@ -117,7 +113,7 @@ function exportServiceProvider.processRenderedPhotos(functionContext, exportCont
     if not found then
       error("No top level collection named 'Plant Book'")
     end
-    cmd = "sh " .. mainShPath .. " " .. localPath .. " " .. remoteHost .. " " .. remotePath .. " " .. password
+    cmd = "sh " .. mainShPath .. " " .. localPath .. " " .. remoteHost .. " " .. remotePath
     logger:trace('Calling main.sh: ' .. cmd)
     res = LrTasks.execute(cmd)
     logger:trace('Done calling main.sh: ' .. res)
@@ -153,9 +149,7 @@ end
 exportServiceProvider.exportPresetFields = {
   {key = 'local_path', default = ''},
   {key = 'remote_host', default = 'krefting.org'},
-  {key = 'password', default = ''},
   {key = 'remote_path', default = ''},
-  {key = 'main_sh_path', default = '/Users/gkreftin/develop/PlantBook/book_formatter/main.sh'},
 }
 
 function exportServiceProvider.sectionsForTopOfDialog(f, propertyTable)
@@ -168,32 +162,16 @@ function exportServiceProvider.sectionsForTopOfDialog(f, propertyTable)
         },
         f:edit_field {
           value = bind 'local_path',
-        },
-      },
-      f:row {
-        f:static_text {
-          title = 'Path to main.sh:',
-        },
-        f:edit_field {
-          value = bind 'main_sh_path',
           width_in_chars = 35,
           wraps = false,
         },
       },
       f:row {
         f:static_text {
-          title = 'Remote Host:',
+          title = 'Remote User@Host:',
         },
         f:edit_field {
           value = bind 'remote_host',
-        },
-      },
-      f:row {
-        f:static_text {
-          title = 'Password:',
-        },
-        f:password_field {
-          value = bind 'password',
         },
       },
       f:row {
@@ -202,6 +180,8 @@ function exportServiceProvider.sectionsForTopOfDialog(f, propertyTable)
         },
         f:edit_field {
           value = bind 'remote_path',
+          width_in_chars = 35,
+          wraps = false,
         },
       },
     }

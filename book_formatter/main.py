@@ -2,6 +2,7 @@ import argparse
 import json
 import logging
 import shutil
+import subprocess
 
 from book_formatter.book_formatter import PhotoCollection
 from book_formatter.values import (
@@ -25,7 +26,6 @@ def main():
     parser.add_argument('local_path')
     parser.add_argument('remote_host')
     parser.add_argument('remote_path')
-    parser.add_argument('password')
     args = parser.parse_args()
     logging.info('args.local_path: %s', args.local_path)
 
@@ -38,11 +38,12 @@ def main():
     f.close()
 
     photos = PhotoCollection(raw_records)
+    logging.info('Reading image sizes')
     photos.init_image_sizes(web_root)
+    logging.info('Reading snippets')
     photos.init_snippets(local_path)
 
-    print(json.dumps(photos.scientific_names, indent=1))
-
+    logging.info('Writing index.html')
     env = Environment(loader=PackageLoader('book_formatter', 'templates'))
     template = env.get_template('index.jinja2')
 
@@ -57,6 +58,7 @@ def main():
             plant_collection=photos,
         ))
 
+    logging.info('Copying css and js files')
     cssfile = joinpath(
         dirname(__file__),
         'book_formatter/templates',
@@ -80,6 +82,22 @@ def main():
         tabsdir,
         joinpath(web_root, 'tabs'),
         dirs_exist_ok=True)
+
+    # Do the rsync
+    cmd = ['rsync',
+           '-az',
+           # '-vv',
+           '--stats',
+           '--delete',
+           '--log-file=log/rsync.log',
+           web_root + "/",  # trailing slash is important
+           args.remote_host + ":" + args.remote_path
+           ]
+    logging.info('syncing to remote')
+    logging.info('cmd: %s', cmd)
+    retval = subprocess.run(cmd)
+    logging.info('retval: %s', retval)
+    logging.info('Done')
 
 
 if __name__ == "__main__":
