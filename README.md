@@ -11,14 +11,14 @@ Prerequisites:
 * Python (tested on 3.11.5, installed by Homebrew)
 * ssh keys set up for remote host
 
-How set it up:
+How to set it up:
 * Add the plugin using Lightroom's Plugin Manager
 * Create a new Plant Book Publish Service with a local staging directory and remote host info
 * Create a single Collection in the Publish Service
 * Create <thisdir>/bookformatter/main.sh based on template.main.sh - this is to avoid trying to get Poetry into Lightroom's path
 * Add photos (or smart collection parameters) to the collection
 * Click publish
-*
+
 Stuff to know:
 * Lightroom plugin logs to ~/Documents/LrClassicLogs/PlantBookPlugin.log
 * main.py logs to <thisdir>/logs/o.log & <thisdir>/logs/rsync.log
