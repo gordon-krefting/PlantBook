@@ -8,13 +8,6 @@ return {
   LrPluginName = "Plant Book",
   LrPluginInfoUrl="http://krefting.org/",
 
-  LrLibraryMenuItems = {
-    {
-      title = "Export Plant Book Files",
-      file = "ExportBookFiles.lua",
-    },
-  },
-
   LrMetadataProvider = 'MetadataDefinition.lua',
   LrMetadataTagsetFactory = 'Tagset.lua',
 
