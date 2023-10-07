@@ -1,6 +1,7 @@
 .DS_Store
 
 book_formatter/main.sh
+logtail.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
