@@ -14,7 +14,7 @@ Prerequisites:
 How to set it up:
 * Add the plugin using Lightroom's Plugin Manager
 * Create a new Plant Book Publish Service with a local staging directory and remote host info
-* Create a single Collection in the Publish Service
+* Create a single Collection named "Plant Photos" in the Publish Service
 * Create <thisdir>/bookformatter/main.sh based on template.main.sh - this is to avoid trying to get Poetry into Lightroom's path
 * Add photos (or smart collection parameters) to the collection
 * Click publish
