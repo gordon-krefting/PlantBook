@@ -38,6 +38,7 @@ def test_safename_backslash():
 
 
 def test_get_remote_snippet():
+    print(_get_remote_snippet('Alliaria petiolata'))
     assert _get_remote_snippet('Alliaria petiolata').startswith(
         '<p><i><b>Alliaria petiolata</b></i>, or <b>garlic mustard')
 

@@ -26,7 +26,13 @@ def _get_remote_snippet(name):
         raise ValueError('Could not get snippet for %s' % url
                          + ' (status code %s)' % r.status_code)
     j = json.loads(r.text)
-    return j['extract_html']
+    snippet = j['extract_html']
+    link = (" <a "
+            "href='https://en.wikipedia.org/wiki/%s' "
+            "class='snippet-link'"
+            ">Wikipedia</a>" % (name))
+    snippet = re.sub("</p>$", link, snippet)
+    return snippet
 
 
 class SnippetGrabber(object):
@@ -49,7 +55,10 @@ class SnippetGrabber(object):
         if not snippet:
             try:
                 snippet = _get_remote_snippet(_safename(name))
-                self._store_local_snippet(_safename(name), snippet)
             except ValueError:
-                return None
-        return snippet
+                snippet = " "
+            self._store_local_snippet(_safename(name), snippet)
+        if len(snippet) > 1:
+            return snippet
+        else:
+            return None

@@ -78,3 +78,7 @@ h2 {
   font-size: calc(1em * 1.2);
   Xfont-family: sans-serif;
 }
+
+a.snippet-link:link {
+  text-decoration: none;
+}
