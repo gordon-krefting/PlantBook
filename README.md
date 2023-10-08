@@ -11,6 +11,15 @@ Prerequisites:
 * Python (tested on 3.11.5, installed by Homebrew)
 * ssh keys set up for remote host
 
+Dependancies:
+* jQuery 3.6.4 from google CDN
+* Bootstrap 5.3.2 from JSdeliver CDN
+* Photoswipe
+* Photoswipe dynamic caption plugin
+* JSON lua library
+* Unnamed tabs library
+* Python libs as listed in the .toml file
+
 How to set it up:
 * Add the plugin using Lightroom's Plugin Manager
 * Create a new Plant Book Publish Service with a local staging directory and remote host info
@@ -18,6 +27,7 @@ How to set it up:
 * Create <thisdir>/bookformatter/main.sh based on template.main.sh - this is to avoid trying to get Poetry into Lightroom's path
 * Add photos (or smart collection parameters) to the collection
 * Click publish
+* Check it out at [krefting.org](https://krefting.org/plantguide)
 
 Stuff to know:
 * Lightroom plugin logs to ~/Documents/LrClassicLogs/PlantBookPlugin.log
