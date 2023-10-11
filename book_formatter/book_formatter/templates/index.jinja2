@@ -70,6 +70,31 @@
         <div class="column plant_listing">{{p.snippet}}</div>
       </div>
       {% endif %}
+      <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#f8f8f8;">
+       <div class="col-sm-5 plant_detail">
+          {% if p.notes %}
+          {{ p.notes }}
+          {% endif %}  
+        </div>
+        <div class="col-sm-4 plant_detail">
+          {{ p.get_location_csv() }}
+        </div>
+        <div class="col-sm-3 plant_detail">
+          {{ p.get_introduced_lines_csv() }} 
+        </div>
+      </div>
+    {% if p.has_errors() %}
+      <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#f8f8f8;">
+        <div class="column plant_listing">
+          <div>Errors</div>
+          <ul>
+          {% for error in p.errors %}
+            <li>{{error}}</li>
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
     </div>
   {%- endmacro %}
 

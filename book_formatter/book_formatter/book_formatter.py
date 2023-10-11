@@ -1,10 +1,11 @@
 import dateutil.parser
 import imagesize
 import os
+from book_formatter.values import (
+    PLANTING_TYPES, LOCATIONS
+)
 from snippets.snippets import SnippetGrabber
-
-
-OUTPUT_DIR = '/Users/gkreftin/temp/'
+from sortedcontainers import SortedSet
 
 
 class PhotoRecord:
@@ -25,6 +26,10 @@ class PhotoRecord:
             ).strftime("%B %-d, %Y")
         except ValueError:
             self.date = None
+        self.introduced = r.get('introduced')
+        self.introduction_year = r.get('introductionYear')
+        self.notes = r.get('notes')
+        self.locationDescription = r.get('locationDescription')
 
     def init_image_sizes(self, path):
         self.width, self.height = imagesize.get(
@@ -37,24 +42,53 @@ class PhotoRecord:
 
 class PlantRecord:
 
+    def _update_introduced_lines(self, r):
+        if r.introduced and r.introduction_year:
+            self.introduced_lines.add('%s (%s)' % (
+                PLANTING_TYPES[r.introduced], r.introduction_year))
+        elif r.introduced or r.introduction_year:
+            self.errors.add('introduced and introduction_year both required')
+
+    def _update_notes(self, r):
+        if r.notes and not self.notes:
+            self.notes = r.notes
+        elif r.notes and r.notes != self.notes:
+            self.errors.add('Notes fields should be combined')
+
+    def _update_common_name(self, r):
+        if r.common_name and not self.common_name:
+            self.common_name = r.common_name
+        elif r.common_name and r.common_name != self.common_name:
+            self.errors.add(
+                'Common name mismatch: %s != %s'
+                % (r.common_name, self.common_name))
+
+    def _update_location(self, r):
+        if r.location:
+            self.locations.add(r.location)
+            if r.locationDescription:
+                if r.location not in self.locationDescriptions:
+                    self.locationDescriptions[r.location] = []
+                self.locationDescriptions[r.location].append(
+                    r.locationDescription)
+
     def __init__(self, records):
         self.scientific_name = records[0].scientific_name
         self.common_name = None
         self.plant_type = None
         self.locations = set()
+        self.locationDescriptions = {}
         self.photo_records = []
         self.errors = set()
         self.snippet = None
         self.nativity = None
+        self.introduced_lines = SortedSet()
+        self.notes = None
 
         records.sort(key=lambda r: r.rating, reverse=True)
         for r in records:
-            if r.common_name and not self.common_name:
-                self.common_name = r.common_name
-            elif r.common_name and r.common_name != self.common_name:
-                self.errors.add(
-                    'Common name mismatch: %s != %s'
-                    % (r.common_name, self.common_name))
+            self._update_common_name(r)
+            self._update_notes(r)
 
             if r.nativity and not self.nativity:
                 self.nativity = r.nativity
@@ -69,12 +103,12 @@ class PlantRecord:
                 self.errors.add(
                     'Plant type mismatch: %s != %s'
                     % (r.plant_type, self.plant_type))
-
-            if r.location:
-                self.locations.add(r.location)
+            self._update_location(r)
 
             if r.rating > 0 or len(self.photo_records) == 0:
                 self.photo_records.append(r)
+
+            self._update_introduced_lines(r)
 
         if self.common_name is None:
             self.errors.add('Missing common name')
@@ -84,6 +118,24 @@ class PlantRecord:
 
         if len(self.locations) == 0:
             self.errors.add('Missing location')
+
+    def get_location_csv(self):
+        t = set()
+        for location in self.locations:
+            o = LOCATIONS[location]
+            if location in self.locationDescriptions:
+                o += ' (' + ', '.join(
+                    self.locationDescriptions[location]
+                ) + ')'
+            t.add(o)
+        s = ', '.join(t)
+        return s
+
+    def get_introduced_lines_csv(self):
+        return ', '.join(self.introduced_lines)
+
+    def has_errors(self):
+        return len(self.errors) > 0
 
 
 class PhotoCollection():

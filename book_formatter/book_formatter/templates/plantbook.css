@@ -1,3 +1,10 @@
+.plant_detail {
+  font-size: 1em;
+  Xpadding: 10px;
+  Xborder-right: 1px solid #cccccc;
+}
+
+
 /* styles for the gallery */
 
 .pswp-gallery__item {

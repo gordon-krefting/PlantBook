@@ -34,7 +34,10 @@ def records():
     {"fileName": "12.NEF", "scientificName": "i1", "rating": 3,
         "invasive": "yes"},
     {"fileName": "13.NEF", "scientificName": "i1", "rating": 4,
-        "invasive": "no"}
+        "invasive": "no"},
+
+    {"fileName": "15.NEF", "scientificName": "i3", "introduced": "plant",
+        "introductionYear": "2010"}
 ]""")
 
 
@@ -64,7 +67,7 @@ def test_unidentified(photos):
 
 
 def test_plant_count(photos):
-    assert len(photos.plant_records) == 5
+    assert len(photos.plant_records) == 6
 
 
 def test_nativity(photos):
@@ -133,3 +136,8 @@ def test_get_plants_by_type(photos):
 def test_get_plants_by_location(photos):
     r = photos.get_plants_by_location('front yard')
     assert 2 == len(r)
+
+
+def test_introduction_lines(photos):
+    r = photos.get_plant_record('i3')
+    assert r.introduced_lines[0] == 'Plants (2010)'

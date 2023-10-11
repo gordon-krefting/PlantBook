@@ -1,5 +1,5 @@
 return {
-  schemaVersion = 1,
+  schemaVersion = 1.1,
 
   metadataFieldsForPhotos = {
     {dataType="string", searchable=true, browsable=true, id="scientificName",      title="Scientific Name", version=1},
@@ -32,5 +32,18 @@ return {
       {value='nonnative',    title="Non-native"},
       {value='invasive',     title="Invasive"},
     },},
+    {dataType="enum",   searchable=true, browsable=true, id="idConfidence",        title="ID Confidence",   version=1, values = {
+      {value=nil,            title="-"},
+      {value='medium',       title="?"},
+      {value='low',          title="??"},
+      {value='unknown',      title="???"},
+    },},
+    {dataType="enum",   searchable=true, browsable=true, id="introduced",          title="Introduced",      version=1, values = {
+      {value=nil,            title="-"},
+      {value='seed',         title="Seed"},
+      {value='bulb',         title="Bulb"},
+      {value='plant',        title="Plant"},
+    },},
+    {dataType="string", searchable=true, browsable=true, id="introductionYear",    title="Year Introduced", version=1},
   },
 }

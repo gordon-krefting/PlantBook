@@ -29,3 +29,9 @@ NATIVITY_LABELS = {
     'nonnative': 'text-bg-warning',
     'invasive': 'text-bg-danger',
 }
+
+PLANTING_TYPES = {
+    'seed': 'Seeding',
+    'bulb': 'Bulbs',
+    'plant': 'Planting',
+}
