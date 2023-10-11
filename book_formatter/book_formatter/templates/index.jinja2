@@ -24,11 +24,24 @@
     <h1>811 Laroe Plant Guide</h1>
     </div>
 
+  {% macro confidence(c) -%}
+    {% if c == "medium" %}
+      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
+    {% elif c == "low" %}
+      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
+      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
+    {% elif c == "unknown" %}
+      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
+      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
+      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
+    {% endif %}
+  {%- endmacro %}
+
   {% macro plantEntry(p) -%}
     <div style="margin-bottom:30px;">
       <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#dddddd;">
         <div class="column plant_listing col-sm-8">
-        <div class="scientific_name">{{p.scientific_name}}</div>
+        <div class="scientific_name">{{p.scientific_name}}{{ confidence(p.idConfidence) }}</div>
         <h2 class="common_name">{{p.common_name}}</h2>
         </div>
         <div class="col-sm-4" style=" text-align:right;">

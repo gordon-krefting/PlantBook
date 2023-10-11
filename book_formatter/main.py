@@ -83,6 +83,15 @@ def main():
         joinpath(web_root, 'tabs'),
         dirs_exist_ok=True)
 
+    tabsdir = joinpath(
+        dirname(__file__),
+        'book_formatter/templates',
+        'img')
+    shutil.copytree(
+        tabsdir,
+        joinpath(web_root, 'img'),
+        dirs_exist_ok=True)
+
     # Do the rsync
     cmd = ['rsync',
            '-az',

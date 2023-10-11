@@ -30,6 +30,7 @@ class PhotoRecord:
         self.introduction_year = r.get('introductionYear')
         self.notes = r.get('notes')
         self.locationDescription = r.get('locationDescription')
+        self.idConfidence = r.get('idConfidence')
 
     def init_image_sizes(self, path):
         self.width, self.height = imagesize.get(
@@ -72,6 +73,16 @@ class PlantRecord:
                 self.locationDescriptions[r.location].append(
                     r.locationDescription)
 
+    def _error_check(self):
+        if self.common_name is None:
+            self.errors.add('Missing common name')
+
+        if self.plant_type is None:
+            self.errors.add('Missing plant type')
+
+        if len(self.locations) == 0:
+            self.errors.add('Missing location')
+
     def __init__(self, records):
         self.scientific_name = records[0].scientific_name
         self.common_name = None
@@ -84,6 +95,7 @@ class PlantRecord:
         self.nativity = None
         self.introduced_lines = SortedSet()
         self.notes = None
+        self.idConfidence = None
 
         records.sort(key=lambda r: r.rating, reverse=True)
         for r in records:
@@ -108,16 +120,15 @@ class PlantRecord:
             if r.rating > 0 or len(self.photo_records) == 0:
                 self.photo_records.append(r)
 
+            if r.idConfidence and not self.idConfidence:
+                self.idConfidence = r.idConfidence
+            elif r.idConfidence and r.idConfidence != self.idConfidence:
+                self.errors.add(
+                    'ID Confidence mismatch: %s != %s'
+                    % (r.idConfidence, self.idConfidence))
+
             self._update_introduced_lines(r)
-
-        if self.common_name is None:
-            self.errors.add('Missing common name')
-
-        if self.plant_type is None:
-            self.errors.add('Missing plant type')
-
-        if len(self.locations) == 0:
-            self.errors.add('Missing location')
+        self._error_check()
 
     def get_location_csv(self):
         t = set()
