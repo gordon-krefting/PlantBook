@@ -14,6 +14,9 @@ local json = require "JSON"
 
 local exportServiceProvider = {}
 
+exportServiceProvider.small_icon = 'flower_ico_23.png'
+
+
 -- All the action is here!
 function exportServiceProvider.processRenderedPhotos(functionContext, exportContext)
   local exportSettings = assert(exportContext.propertyTable)
