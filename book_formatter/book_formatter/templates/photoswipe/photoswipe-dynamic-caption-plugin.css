@@ -22,12 +22,10 @@
 .pswp__dynamic-caption--aside {
   width: auto;
   max-width: 300px;
+  Xmin-width: 300px;
+  Xmax-width: 400px;
   padding: 20px 15px 20px 20px;
   margin-top: 50px;
-  margin-left: 30px;
-  margin-right: 30px;
-  background: #cccccc;
-  Xborder: 1px solid red;
 }
 
 .pswp__dynamic-caption--below {

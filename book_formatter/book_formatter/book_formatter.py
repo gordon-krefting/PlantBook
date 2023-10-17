@@ -29,8 +29,11 @@ class PhotoRecord:
         self.introduced = r.get('introduced')
         self.introduction_year = r.get('introductionYear')
         self.notes = r.get('notes')
-        self.locationDescription = r.get('locationDescription')
+        self.location_description = r.get('locationDescription')
+        self.caption = r.get('caption')
         self.idConfidence = r.get('idConfidence')
+        self.location_line = self._init_location_line()
+        self.introduction_line = self._init_introduction_line()
 
     def init_image_sizes(self, path):
         self.width, self.height = imagesize.get(
@@ -39,6 +42,20 @@ class PhotoRecord:
         self.thumbnail_width, self.thumbnail_height = imagesize.get(
             os.path.join(path, 'thumbs', self.filename)
         )
+
+    def _init_location_line(self):
+        if self.location:
+            o = LOCATIONS[self.location]
+            if self.location_description:
+                o += ' (' + self.location_description + ')'
+            return o
+        return None
+
+    def _init_introduction_line(self):
+        if self.introduced and self.introduction_year:
+            return '%s (%s)' % (PLANTING_TYPES[self.introduced],
+                                self.introduction_year)
+        return None
 
 
 class PlantRecord:
@@ -67,11 +84,11 @@ class PlantRecord:
     def _update_location(self, r):
         if r.location:
             self.locations.add(r.location)
-            if r.locationDescription:
-                if r.location not in self.locationDescriptions:
-                    self.locationDescriptions[r.location] = []
-                self.locationDescriptions[r.location].append(
-                    r.locationDescription)
+            if r.location_description:
+                if r.location not in self.location_descriptions:
+                    self.location_descriptions[r.location] = []
+                self.location_descriptions[r.location].append(
+                    r.location_description)
 
     def _error_check(self):
         if self.common_name is None:
@@ -88,7 +105,7 @@ class PlantRecord:
         self.common_name = None
         self.plant_type = None
         self.locations = set()
-        self.locationDescriptions = {}
+        self.location_descriptions = {}
         self.photo_records = []
         self.errors = set()
         self.snippet = None
@@ -134,9 +151,9 @@ class PlantRecord:
         t = set()
         for location in self.locations:
             o = LOCATIONS[location]
-            if location in self.locationDescriptions:
+            if location in self.location_descriptions:
                 o += ' (' + ', '.join(
-                    self.locationDescriptions[location]
+                    self.location_descriptions[location]
                 ) + ')'
             t.add(o)
         s = ', '.join(t)

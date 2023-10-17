@@ -1,37 +1,17 @@
-.plant_detail {
-  font-size: 1em;
-  Xpadding: 10px;
-  Xborder-right: 1px solid #cccccc;
+.qmark:before {
+  content: "\f505";
+  font-size: 80%;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -0.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-
-/* styles for the gallery */
-
-.pswp-gallery__item {
-  Xmargin: 0 4px 4px 0;
-  Xborder: 1px solid black;
-}
-.pswp-gallery__item img {
-  Xdisplay: block;
-}
-.pswp-gallery {
-  max-width: 650px;
-  padding: 0 50px 50px;
-  background: #eee;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-}
-.pswp__dynamic-caption {
-  color: #fff;
-  width: 100%;
-}
-.pswp__dynamic-caption a {
-  color: #fff;
-  text-decoration: underline;
-}
-
-/* ----------------------- */
 h1,h2 {
   font-family: Georgia,Times,Times New Roman,serif;
 }
@@ -41,17 +21,112 @@ h2 {
   margin-bottom: 0;
 }
 
-.plant_caption {
-  color: black;
+dd {
+  margin-left: 1em;
+}       
+
+.scientific-name {
+  font-style: italic;
+  text-indent: -1em;
+  padding-left: 1em;
+  font-family: Georgia,Times,Times New Roman,serif;
 }
 
-.plant_caption p {
-  margin: 0 0 0.5em 0;
+.common-name {
+  text-indent: -1em;
+  padding-left: 1em;
+  font-family: Georgia,Times,Times New Roman,serif;
+}
+
+/* Plant records - on the main page */
+
+div.plant-record {
+  margin-top: 2em;
+  margin-bottom: 4em;
+}
+
+div.plant-record .row {
+  border: 1px solid #cccccc;
+  padding: 0.5em;
+  background-color: #f8f8f8;
+}
+div.plant-record .header-row {
+  background-color: #dddddd;
+}
+
+.plant-record .header-row .common-name {
+  font-family: Georgia,Times,Times New Roman,serif;
+}
+
+.plant-record .header-row .scientific-name {
+  font-size: 1.3em;
+  line-height: 1.1em;
+  font-family: Georgia,Times,Times New Roman,serif;
+}
+
+.plant-detail {
+  font-size: 1em;
+}
+
+#btn-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+}
+
+/* styles for the slideshow */
+.nativity {
+  margin-bottom: .2em;
+}
+
+.photo-record .scientific-name {
+  font-size: 1.1em;
+  margin-bottom: 0;
+}       
+
+.photo-record .common-name {
+  font-size: 1.4em;
+}
+
+.pswp__dynamic-caption--aside {
+  min-width: 300px;
+  max-width: 400px;
+}
+
+/*
+.pswp-gallery__item {
+  Xmargin: 0 4px 4px 0;
+  Xborder: 1px solid black;
+}
+.pswp-gallery__item img {
+  Xdisplay: block;
+}
+.Xpswp-gallery {
+  max-width: 650px;
+  padding: 0 50px 50px;
+  background: #eee;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+.Xpswp__dynamic-caption {
+  color: #fff;
+  Xbackground: #eeeeee;
+  Xmax-width: 3000px;
+  Xwidth: 1500px;
+  Xmargin-top: 10px;
+  Xmargin-bottom: 10px;
+  Xmax-height: 150px;
+}
+.Xpswp__dynamic-caption a {
+  color: #fff;
+  Xtext-decoration: underline;
 }
 
 .plant_caption .scientific_name {
   font-style: italic;
-  font-size: 1.6em;
+  font-size: .6em;
   line-height: 1.1em;
   text-indent: -1em;
   padding-left: 1em;
@@ -59,7 +134,7 @@ h2 {
 
 .plant_caption .common_name {
   font-weight: bold;
-  font-size: 1.8em;
+  font-size: .8em;
   line-height: 1.1em;
   text-indent: -1em;
   padding-left: 1em;
@@ -86,14 +161,9 @@ h2 {
   font-size: calc(1em * 1.2);
   Xfont-family: sans-serif;
 }
-
+*/
 a.snippet-link:link {
   text-decoration: none;
 }
 
-#btn-back-to-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: none;
-}
+

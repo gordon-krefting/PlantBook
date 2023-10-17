@@ -36,79 +36,84 @@
 
   {% macro confidence(c) -%}
     {% if c == "medium" %}
-      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
+      <i class="qmark"></i>
     {% elif c == "low" %}
-      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
-      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
+      <i class="qmark"></i>
+      <i class="qmark"></i>
     {% elif c == "unknown" %}
-      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
-      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
-      <img src="img/question-circle.svg" alt="?" style="width:.8em; height:.8em; margin-bottom:.2em;">
+      <i class="qmark"></i>
+      <i class="qmark"></i>
+      <i class="qmark"></i>
     {% endif %}
   {%- endmacro %}
 
   {% macro plantEntry(p) -%}
-    <div style="margin-bottom:30px;">
-      <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#dddddd;">
-        <div class="column plant_listing col-sm-8">
-        <div class="scientific_name">{{p.scientific_name}}{{ confidence(p.idConfidence) }}</div>
-        <h2 class="common_name">{{p.common_name}}</h2>
+    <div class="plant-record">
+      <div class="row header-row">
+        <div class="column col-sm-8">
+          <div class="scientific-name">{{p.scientific_name}} {{confidence(p.idConfidence)}}</div>
+          <h2 class="common-name">{{p.common_name}}</h2>
         </div>
         <div class="col-sm-4" style=" text-align:right;">
         {% if p.nativity %}
-        <span class="badge badge-pill {{nativity_labels[p.nativity]}}">{{nativity_values[p.nativity]}}</span>
+          <span class="badge badge-pill {{nativity_labels[p.nativity]}}">{{nativity_values[p.nativity]}}</span>
         {% endif %}
         </div>
       </div>
-      <div class="row" style="border: solid #cccccc 1px; padding:20px; background:#f8f8f8">
+      <div class="row">
       {% for photo in p.photo_records %}
         <div class="col-sm-2 pswp-gallery__item">
-          <a
-                href="images/{{photo.filename}}"
-                data-pswp-width="{{photo.width}}"
-                data-pswp-height="{{photo.height}}"
-                target="_blank">
+          <a href="images/{{photo.filename}}" data-pswp-width="{{photo.width}}" data-pswp-height="{{photo.height}}" target="_blank">
             <img src="thumbs/{{photo.filename}}" alt="{{p.scientific_name}}" height="{{photo.thumbnail_height}}" width="{{photo.thumbnail_width}}"
               style="margin:10px; width: 150px; height: 150px; object-fit: cover;">
           </a>
           <div class="pswp-caption-content">
-	    <div class="plant_caption">
-            <p>{{plant_types[p.plant_type]}}</p>
-            <p class="scientific_name">{{p.scientific_name}}</p>
-            <p class="common_name">{{p.common_name}}</p>
-            <p>{{photo.date}}</p>
-            <dl>
-              <dt>Locations</dt>
-              {% for l in p.locations %}
-              <dd>{{locations[l]}}</dd>
-              {% endfor %}
-            </dl>
+            <div class="photo-record">
+            {% if p.nativity %}
+              <div class="nativity"><span class="badge badge-pill {{nativity_labels[p.nativity]}}">{{nativity_values[p.nativity]}}</span></div>
+            {% endif %}
+              <p class="scientific-name">{{p.scientific_name}}{{confidence(p.idConfidence)}}</p>
+              <p class="common-name">{{p.common_name}}</p>
+              <dl>
+              {% if photo.caption %}
+                <dt>Note:</dt>
+                <dd>{{photo.caption}}</dd>
+              {% endif %}
+                <dt>Location:</dt>
+                <dd>{{photo.location_line}}</dd>
+              {% if photo.introduction_line %}
+                <dt>Introduced:</dt>
+                <dd>{{photo.introduction_line}}</dd>
+              {% endif %}
+                <dt>Date:</dt>
+                <dd>{{photo.date}}</dd>
+              </dl>
             </div>
           </div>
         </div>
       {% endfor %}
       </div>
       {% if p.snippet %}
-      <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#f8f8f8;">
-        <div class="column plant_listing">{{p.snippet}}</div>
+      <div class="row">
+        <div class="column plant-listing">{{p.snippet}}</div>
       </div>
       {% endif %}
-      <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#f8f8f8;">
-       <div class="col-sm-5 plant_detail">
+      <div class="row">
+       <div class="col-sm-5 plant-detail">
           {% if p.notes %}
           {{ p.notes }}
           {% endif %}  
         </div>
-        <div class="col-sm-4 plant_detail">
+        <div class="col-sm-4 plant-detail">
           {{ p.get_location_csv() }}
         </div>
-        <div class="col-sm-3 plant_detail">
+        <div class="col-sm-3 plant-detail">
           {{ p.get_introduced_lines_csv() }} 
         </div>
       </div>
     {% if p.has_errors() %}
-      <div class="row" style="border: solid #cccccc 1px; padding:10px; background:#f8f8f8;">
-        <div class="column plant_listing">
+      <div class="row">
+        <div class="column plant-listing">
           <div>Errors</div>
           <ul>
           {% for error in p.errors %}
