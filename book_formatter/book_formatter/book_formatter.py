@@ -1,3 +1,7 @@
+""" Classes for photo records and photo collections
+TODO a lot of inconsistencies in the "init" methods,
+"update" methods, and "get" methods.  Need to clean up
+"""
 import dateutil.parser
 import imagesize
 import os
@@ -20,6 +24,7 @@ class PhotoRecord:
         self.location = r.get('location')
         self.rating = r.get('rating', 0)
         self.filename = os.path.splitext(r['fileName'])[0] + '.jpg'
+        self.safe_filename = self.filename.replace(' ', '%20')
         try:
             self.date = dateutil.parser.isoparse(
                 r.get('dateTime', '')
@@ -148,6 +153,9 @@ class PlantRecord:
         self._error_check()
 
     def get_location_csv(self):
+        return ', '.join({LOCATIONS[loc] for loc in self.locations})
+
+    def get_location_csv_old(self):
         t = set()
         for location in self.locations:
             o = LOCATIONS[location]

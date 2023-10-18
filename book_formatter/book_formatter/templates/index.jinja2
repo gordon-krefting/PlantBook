@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="pinterest" content="nopin" />
+    <meta name="pinterest" content="nopin">
 
     {# The nested tabs #}
     <link rel="stylesheet" href="./tabs/style.css">
@@ -63,8 +63,9 @@
       <div class="row">
       {% for photo in p.photo_records %}
         <div class="col-sm-2 pswp-gallery__item">
-          <a href="images/{{photo.filename}}" data-pswp-width="{{photo.width}}" data-pswp-height="{{photo.height}}" target="_blank">
-            <img src="thumbs/{{photo.filename}}" alt="{{p.scientific_name}}" height="{{photo.thumbnail_height}}" width="{{photo.thumbnail_width}}"
+          <a href="images/{{photo.safe_filename}}" data-pswp-width="{{photo.width}}" data-pswp-height="{{photo.height}}" target="_blank">
+            <img src="thumbs/{{photo.safe_filename}}" alt="{{p.scientific_name}}"
+              height="{{photo.thumbnail_height}}" width="{{photo.thumbnail_width}}"
               style="margin:10px; width: 150px; height: 150px; object-fit: cover;">
           </a>
           <div class="pswp-caption-content">
@@ -99,16 +100,20 @@
       </div>
       {% endif %}
       <div class="row">
-       <div class="col-sm-5 plant-detail">
+        <div class="col-sm-5 plant-detail">
           {% if p.notes %}
-          {{ p.notes }}
+          <dl><dt>Notes:</dt><dd>{{ p.notes }}</dd></dl>
           {% endif %}  
         </div>
         <div class="col-sm-4 plant-detail">
-          {{ p.get_location_csv() }}
+          {% if p.locations %}
+          <dl><dt>Location:</dt><dd>{{ p.get_location_csv() }}</dd></dl>
+          {% endif %}
         </div>
         <div class="col-sm-3 plant-detail">
-          {{ p.get_introduced_lines_csv() }} 
+          {% if p.introduced_lines %}
+          <dl><dt>Introduced:</dt><dd>{{ p.get_introduced_lines_csv() }}</dd></dl>
+          {% endif %}
         </div>
       </div>
     {% if p.has_errors() %}
@@ -134,12 +139,36 @@
     </div>
   {%- endmacro %}
 
+  {% macro statsPage() -%}
+    <div class="plant-record container">
+      <div class="row header-row"><h2>Number of Plant Species</h2></div>
+      <div class="row">
+      <h3>By Location:</h3>
+      {% for location in locations %}
+        <p><b>{{locations[location]}}:</b> {{ plant_collection.get_plants_by_location(location)|length }}</p>
+      {% endfor %}
+      </div>
+      <div class="row">
+      <h3>By Type:</h3>
+      {% for plant_type in plant_types %}
+      <p><b>{{plant_types[plant_type]}}:</b> {{ plant_collection.get_plants_by_type(plant_type)|length }}</p>
+      {% endfor %}
+      </div>
+      <div class="row">
+      <p><b>Total:</b> {{ plant_collection.plant_records|length }}</p>
+      </div>
+    </div>
+  {%- endmacro %}
+
 
     <div class="tab container">
       <div class="tab__list">
         <div class="tab__item">All Plants</div>
         <div class="tab__item">By Location</div>
         <div class="tab__item">By Type</div>
+        <div class="tab__item">Most Recent</div>
+        <div class="tab__item">ID Needed</div>
+        <div class="tab__item">Stats</div>
       </div>
       <div class="tab__content">
         <div class="tab__content-item">{{ plantList("all", plants) }}</div>
@@ -157,7 +186,7 @@
             {% endfor %}
           </div>
         </div>
-         <div class="tab__content-item tab">
+        <div class="tab__content-item tab">
           <div class="tab__list">
             {% for plant_type in plant_types %}
               <div class="tab__item">{{plant_types[plant_type]}}</div>
@@ -170,6 +199,15 @@
             </div>
             {% endfor %}
           </div>
+        </div>
+        <div class="tab__content-item">
+          Newest!
+        </div>
+        <div class="tab__content-item">
+          What are these anyway?
+        </div>
+        <div class="tab__content-item">
+          {{ statsPage() }}
         </div>
       </div>
     </div>
