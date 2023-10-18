@@ -25,7 +25,7 @@ return {
       {value='fungus',       title="Fungi"},
       {value='grass',        title="Grasses, Sedges and Rushes"},
       {value='vine',         title="Vines"},
-      {value='other',        title="Other"},
+      {value='otherplant',   title="Other"},
     },},
     {dataType="enum",   searchable=true, browsable=true, id="nativity",            title="Nativity",        version=1, values = {
       {value=nil,            title="-"},

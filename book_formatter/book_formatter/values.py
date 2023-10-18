@@ -6,7 +6,7 @@ PLANT_TYPES = {
     'fungus': 'Fungi',
     'grass': 'Grasses, Sedges and Rushes',
     'vine': 'Vines',
-    'other': 'Other',
+    'otherplant': 'Other',
 }
 
 LOCATIONS = {
