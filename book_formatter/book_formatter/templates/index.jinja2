@@ -200,9 +200,7 @@
             {% endfor %}
           </div>
         </div>
-        <div class="tab__content-item">
-          Newest!
-        </div>
+        <div class="tab__content-item">{{ plantList("latest", plant_collection.get_latest_plants()) }} </div>
         <div class="tab__content-item">
           What are these anyway?
         </div>
@@ -260,6 +258,7 @@
       {% for location in locations %}
         createLightbox('{{ location }}')
       {% endfor %}
+      createLightbox('latest')
 
     </script>
 

@@ -31,6 +31,12 @@ class PhotoRecord:
             ).strftime("%B %-d, %Y")
         except ValueError:
             self.date = None
+        try:
+            self.datetime = dateutil.parser.isoparse(
+                r.get('dateTime', '')
+            ).strftime("%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            self.datetime = None
         self.introduced = r.get('introduced')
         self.introduction_year = r.get('introductionYear')
         self.notes = r.get('notes')
@@ -64,7 +70,6 @@ class PhotoRecord:
 
 
 class PlantRecord:
-
     def _update_introduced_lines(self, r):
         if r.introduced and r.introduction_year:
             self.introduced_lines.add('%s (%s)' % (
@@ -95,6 +100,12 @@ class PlantRecord:
                 self.location_descriptions[r.location].append(
                     r.location_description)
 
+    def _update_updated_datetime(self, r):
+        if self.updated_datetime is None:
+            self.updated_datetime = r.datetime
+        elif r.datetime is not None and r.datetime > self.updated_datetime:
+            self.updated_datetime = r.datetime
+
     def _error_check(self):
         if self.common_name is None:
             self.errors.add('Missing common name')
@@ -118,6 +129,7 @@ class PlantRecord:
         self.introduced_lines = SortedSet()
         self.notes = None
         self.idConfidence = None
+        self.updated_datetime = None
 
         records.sort(key=lambda r: r.rating, reverse=True)
         for r in records:
@@ -150,6 +162,7 @@ class PlantRecord:
                     % (r.idConfidence, self.idConfidence))
 
             self._update_introduced_lines(r)
+            self._update_updated_datetime(r)
         self._error_check()
 
     def get_location_csv(self):
@@ -218,3 +231,9 @@ class PhotoCollection():
 
     def get_plants_by_location(self, location):
         return [r for r in self.plant_records if location in r.locations]
+
+    def get_latest_plants(self):
+        s = sorted(
+            [r for r in self.plant_records if r.updated_datetime is not None],
+            key=lambda r: r.updated_datetime, reverse=True)
+        return s[:20]
