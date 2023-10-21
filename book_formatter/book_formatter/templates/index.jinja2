@@ -47,7 +47,7 @@
     {% endif %}
   {%- endmacro %}
 
-  {% macro plantEntry(p) -%}
+  {% macro plantEntry(p, key) -%}
     <div class="plant-record">
       <div class="row header-row">
         <div class="column col-sm-8">
@@ -62,7 +62,7 @@
       </div>
       <div class="row">
       {% for photo in p.photo_records %}
-        <div class="col-sm-2 pswp-gallery__item">
+        <div class="col-sm-2 pswp-gallery__item" id="{{key}}-{{photo.safe_filename}}">
           <a href="images/{{photo.safe_filename}}" data-pswp-width="{{photo.width}}" data-pswp-height="{{photo.height}}" target="_blank">
             <img src="thumbs/{{photo.safe_filename}}" alt="{{p.scientific_name}}"
               height="{{photo.thumbnail_height}}" width="{{photo.thumbnail_width}}"
@@ -134,7 +134,7 @@
   {% macro plantList(key, plants) -%}
     <div class="container" id="gallery_{{key}}">
     {% for p in plants %}
-      {{ plantEntry(p) }}
+      {{ plantEntry(p, key) }}
     {% endfor %}
     </div>
   {%- endmacro %}
@@ -256,7 +256,7 @@
           showHideAnimationType: 'fade',
           gallerySelector: '#gallery_' + tag,
           childSelector: '.pswp-gallery__item',
-          bgOpacity: 0.9,
+          bgOpacity: 0.95,
           
           // optionally adjust viewport
           paddingFn: (viewportSize) => {
@@ -269,6 +269,12 @@
           mobileLayoutBreakpoint: 700,
           type: 'aside',
           mobileCaptionOverlapRatio: 1
+        });
+        lightbox.on('change', () => {
+          var filename = pswp.currSlide.content.data.src.replace(/^.*[\\/]/, '')
+          var loc = tag + "-" + filename;
+          var scrollDiv = document.getElementById(loc).offsetTop;
+          window.scrollTo({ top: scrollDiv - 100, behavior: 'smooth'});
         });
 
         lightbox.init();
