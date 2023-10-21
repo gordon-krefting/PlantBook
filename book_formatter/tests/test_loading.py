@@ -13,12 +13,12 @@ def records():
     {"fileName": "3.NEF", "scientificName": "Foo bar",
         "commonName": "foobar", "rating": 4},
     {"fileName": "4.jpg", "scientificName": "Foo bar",
-        "commonName": "foobarx", "rating": 3, "location": "front yard"},
+        "commonName": "foobarx", "rating": 3, "location": "frontyard"},
 
     {"fileName": "5.jpg", "scientificName": "Foo bar2",
-        "rating": 3, "location": "back yard"},
+        "rating": 3, "location": "backyard"},
     {"fileName": "6.jpg", "scientificName": "Foo bar2",
-        "rating": 3, "nativity": "native", "location": "front yard"},
+        "rating": 3, "nativity": "native", "location": "frontyard"},
     {"fileName": "7.jpg", "scientificName": "Foo bar2",
         "rating": 3, "nativity": "invasive", "plantType": "forbs"},
 
@@ -134,10 +134,10 @@ def test_get_plants_by_type(photos):
 
 
 def test_get_plants_by_location(photos):
-    r = photos.get_plants_by_location('front yard')
+    r = photos.get_plants_by_location('frontyard')
     assert 2 == len(r)
 
 
 def test_introduction_lines(photos):
     r = photos.get_plant_record('i3')
-    assert r.introduced_lines[0] == 'Plants (2010)'
+    assert r.introduced_lines[0] == 'Planting (2010)'
