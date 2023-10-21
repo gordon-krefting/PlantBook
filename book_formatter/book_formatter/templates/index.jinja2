@@ -168,6 +168,7 @@
         <div class="tab__item">By Type</div>
         <div class="tab__item">Most Recent</div>
         <div class="tab__item">ID Needed</div>
+        <div class="tab__item">Best Photos</div>
         <div class="tab__item">Stats</div>
       </div>
       <div class="tab__content">
@@ -201,8 +202,29 @@
           </div>
         </div>
         <div class="tab__content-item">{{ plantList("latest", plant_collection.get_latest_plants()) }} </div>
+        <div class="tab__content-item tab">
+          <div class="tab__list">
+            <div class="tab__item">?</div>
+            <div class="tab__item">??</div>
+            <div class="tab__item">???</div>
+          </div>
+          <div class="tab__content">
+            <div class="tab__content-item">
+              I think I've made pretty good guesses, but I'm not sure.
+              {{ plantList("medium", plant_collection.get_plants_by_id_confidence("medium")) }}
+            </div>
+            <div class="tab__content-item">
+              I'm probably wrong about these.
+              {{ plantList("low", plant_collection.get_plants_by_id_confidence("low")) }}
+            </div>
+            <div class="tab__content-item">
+              I have no good guesses
+              {{ plantList("unknown", plant_collection.get_plants_by_id_confidence("unknown")) }}
+            </div>
+          </div>
+        </div>
         <div class="tab__content-item">
-          What are these anyway?
+          good ones
         </div>
         <div class="tab__content-item">
           {{ statsPage() }}
@@ -259,6 +281,9 @@
         createLightbox('{{ location }}')
       {% endfor %}
       createLightbox('latest')
+      createLightbox('medium')
+      createLightbox('low')
+      createLightbox('unknown')
 
     </script>
 

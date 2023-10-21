@@ -237,3 +237,6 @@ class PhotoCollection():
             [r for r in self.plant_records if r.updated_datetime is not None],
             key=lambda r: r.updated_datetime, reverse=True)
         return s[:20]
+
+    def get_plants_by_id_confidence(self, conf):
+        return [r for r in self.plant_records if r.idConfidence == conf]
