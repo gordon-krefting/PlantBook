@@ -16,10 +16,24 @@ def test_safename_cultivar():
     assert _safename("Chelone lyonii 'Hot Lips'") == 'Chelone_lyonii'
 
 
+def test_safename_cultivar_2():
+    assert _safename(
+        "Narcissus poeticus var. recurvus"
+    ) == 'Narcissus_poeticus'
+
+
 def test_safename_cultivar_more_quotes():
     assert _safename(
         "Chelone 'banana' lyonii 'Hot Lips'"
     ) == "Chelone_'banana'_lyonii"
+
+
+def test_safename_species():
+    assert _safename("Spirogyra sp.") == 'Spirogyra'
+
+
+def test_safename_species_2():
+    assert _safename("Narcissus sp.") == 'Narcissus_(plant)'
 
 
 def test_safename_colon():

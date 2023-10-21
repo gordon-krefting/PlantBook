@@ -7,8 +7,17 @@ def _safename(name):
     """Convert a name to a safe filename.
 
     Works for OSX, maybe UNIXes, but probably not Windows."""
+    # A very special case for Narcissus
+    name = re.sub('Narcissus sp.', 'Narcissus_(plant)', name)
+
     # a special case for cultivars (we don't want to use the cultivar name)
     name = re.sub(" '[^']*'$", '', name)
+
+    # another special case for cultivars
+    name = re.sub(" var\\..*", '', name)
+
+    # special case for species
+    name = re.sub(" sp\\..*", '', name)
 
     if len(name) < 5:
         raise ValueError('Name too short: %s' % name)
