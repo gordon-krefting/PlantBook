@@ -210,15 +210,15 @@
           </div>
           <div class="tab__content">
             <div class="tab__content-item">
-              I think I've made pretty good guesses, but I'm not sure.
+              I think I've made pretty good guesses
               {{ plantList("medium", plant_collection.get_plants_by_id_confidence("medium")) }}
             </div>
             <div class="tab__content-item">
-              I'm probably wrong about these.
+              I'm probably wrong about these
               {{ plantList("low", plant_collection.get_plants_by_id_confidence("low")) }}
             </div>
             <div class="tab__content-item">
-              I have no good guesses
+              I have no reasonable guess
               {{ plantList("unknown", plant_collection.get_plants_by_id_confidence("unknown")) }}
             </div>
           </div>
