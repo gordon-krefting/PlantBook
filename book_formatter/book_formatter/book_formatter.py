@@ -191,8 +191,11 @@ class PhotoCollection():
     def __init__(self, raw_records):
         self.grouped_photos = {}
         self.unidentified_photos = []
+        self.best_photos = {}
+        self.plant_records_by_filename = {}
         self.plant_records = []
 
+        # Loop through the raw records and group them by scientific name
         for r in raw_records:
             photo_record = PhotoRecord(r)
             key = photo_record.scientific_name
@@ -206,9 +209,17 @@ class PhotoCollection():
         self.scientific_names = list(self.grouped_photos.keys())
         self.scientific_names.sort()
 
+        # Loop through the grouped photos and create PlantRecords
+        # Also keep track of the best photos
         for scientific_name in self.scientific_names:
-            self.plant_records.append(
-                PlantRecord(self.grouped_photos[scientific_name]))
+            photo_group = self.grouped_photos[scientific_name]
+            plant_record = PlantRecord(photo_group)
+            self.plant_records.append(plant_record)
+            for photo_record in photo_group:
+                if photo_record.rating > 3:
+                    self.best_photos[photo_record.filename] = photo_record
+                self.plant_records_by_filename[photo_record.filename] = \
+                    plant_record
 
     def init_image_sizes(self, path):
         for r in self.plant_records:

@@ -47,6 +47,41 @@
     {% endif %}
   {%- endmacro %}
 
+  {% macro photo(key, photo, plant_record) -%}
+        <div class="col-sm-2 pswp-gallery__item" id="{{key}}-{{photo.safe_filename}}">
+          <a href="images/{{photo.safe_filename}}" data-pswp-width="{{photo.width}}" data-pswp-height="{{photo.height}}" target="_blank">
+            <img src="thumbs/{{photo.safe_filename}}" alt="{{plant_record.scientific_name}}"
+              height="{{photo.thumbnail_height}}" width="{{photo.thumbnail_width}}"
+              style="margin:10px; width: 150px; height: 150px; object-fit: cover;">
+          </a>
+          <div class="pswp-caption-content">
+            <div class="photo-record">
+            {% if plant_record.nativity %}
+              <div class="nativity">
+                <span class="badge badge-pill {{nativity_labels[plant_record.nativity]}}">{{nativity_values[plant_record.nativity]}}</span>
+              </div>
+            {% endif %}
+              <p class="scientific-name">{{plant_record.scientific_name}}{{confidence(plant_record.idConfidence)}}</p>
+              <p class="common-name">{{plant_record.common_name}}</p>
+              <dl>
+              {% if photo.caption %}
+                <dt>Note:</dt>
+                <dd>{{photo.caption}}</dd>
+              {% endif %}
+                <dt>Location:</dt>
+                <dd>{{photo.location_line}}</dd>
+              {% if photo.introduction_line %}
+                <dt>Introduced:</dt>
+                <dd>{{photo.introduction_line}}</dd>
+              {% endif %}
+                <dt>Date:</dt>
+                <dd>{{photo.date}}</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+  {%- endmacro %}
+
   {% macro plantEntry(p, key) -%}
     <div class="plant-record">
       <div class="row header-row">
@@ -61,7 +96,9 @@
         </div>
       </div>
       <div class="row">
-      {% for photo in p.photo_records %}
+      {% for photo_record in p.photo_records %}
+        {{ photo(key, photo_record, p) }}
+        {#
         <div class="col-sm-2 pswp-gallery__item" id="{{key}}-{{photo.safe_filename}}">
           <a href="images/{{photo.safe_filename}}" data-pswp-width="{{photo.width}}" data-pswp-height="{{photo.height}}" target="_blank">
             <img src="thumbs/{{photo.safe_filename}}" alt="{{p.scientific_name}}"
@@ -92,6 +129,7 @@
             </div>
           </div>
         </div>
+        #}  
       {% endfor %}
       </div>
       {% if p.snippet %}
@@ -160,6 +198,16 @@
     </div>
   {%- endmacro %}
 
+  {% macro bestPhotos() -%}
+    <div class="container plant-record" id="gallery_best_photos">
+    <div class="row">
+    {% for filename in plant_collection.best_photos %}
+      {{ photo("best_photos", plant_collection.best_photos[filename], plant_collection.plant_records_by_filename[filename]) }}
+    {% endfor %}
+    </div>
+    </div>
+  {%- endmacro %}
+
 
     <div class="tab container">
       <div class="tab__list">
@@ -224,8 +272,8 @@
           </div>
         </div>
         <div class="tab__content-item">
-          good ones
-        </div>
+          {{ bestPhotos() }}
+        </div><!-- xxx -->
         <div class="tab__content-item">
           {{ statsPage() }}
         </div>
@@ -289,6 +337,7 @@
       createLightbox('latest')
       createLightbox('medium')
       createLightbox('low')
+      createLightbox('best_photos')
       createLightbox('unknown')
 
     </script>
