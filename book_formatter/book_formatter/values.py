@@ -32,6 +32,7 @@ NATIVITY_LABELS = {
 }
 
 PLANTING_TYPES = {
+    'preexistent': 'Preexistent',
     'seed': 'Seeding',
     'bulb': 'Bulbs',
     'plant': 'Planting',

@@ -74,8 +74,15 @@ class PlantRecord:
         if r.introduced and r.introduction_year:
             self.introduced_lines.add('%s (%s)' % (
                 PLANTING_TYPES[r.introduced], r.introduction_year))
+        elif r.introduced == 'preexistent':
+            self.introduced_lines.add(PLANTING_TYPES[r.introduced])
         elif r.introduced or r.introduction_year:
             self.errors.add('introduced and introduction_year both required')
+
+    def _finalize_introduced_lines(self):
+        if len(self.introduced_lines) == 1 and \
+                self.introduced_lines[0] == 'Preexistent':
+            self.introduced_lines = []
 
     def _update_notes(self, r):
         if r.notes and not self.notes:
@@ -163,6 +170,7 @@ class PlantRecord:
 
             self._update_introduced_lines(r)
             self._update_updated_datetime(r)
+        self._finalize_introduced_lines()
         self._error_check()
 
     def get_location_csv(self):

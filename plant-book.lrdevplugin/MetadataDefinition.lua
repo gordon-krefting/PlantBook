@@ -41,6 +41,7 @@ return {
     },},
     {dataType="enum",   searchable=true, browsable=true, id="introduced",          title="Introduced",      version=1, values = {
       {value=nil,            title="-"},
+      {value='preexistent',  title="Preexistent"},
       {value='seed',         title="Seeding"},
       {value='bulb',         title="Bulbs"},
       {value='plant',        title="Planting"},

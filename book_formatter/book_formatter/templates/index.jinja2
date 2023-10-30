@@ -98,38 +98,6 @@
       <div class="row">
       {% for photo_record in p.photo_records %}
         {{ photo(key, photo_record, p) }}
-        {#
-        <div class="col-sm-2 pswp-gallery__item" id="{{key}}-{{photo.safe_filename}}">
-          <a href="images/{{photo.safe_filename}}" data-pswp-width="{{photo.width}}" data-pswp-height="{{photo.height}}" target="_blank">
-            <img src="thumbs/{{photo.safe_filename}}" alt="{{p.scientific_name}}"
-              height="{{photo.thumbnail_height}}" width="{{photo.thumbnail_width}}"
-              style="margin:10px; width: 150px; height: 150px; object-fit: cover;">
-          </a>
-          <div class="pswp-caption-content">
-            <div class="photo-record">
-            {% if p.nativity %}
-              <div class="nativity"><span class="badge badge-pill {{nativity_labels[p.nativity]}}">{{nativity_values[p.nativity]}}</span></div>
-            {% endif %}
-              <p class="scientific-name">{{p.scientific_name}}{{confidence(p.idConfidence)}}</p>
-              <p class="common-name">{{p.common_name}}</p>
-              <dl>
-              {% if photo.caption %}
-                <dt>Note:</dt>
-                <dd>{{photo.caption}}</dd>
-              {% endif %}
-                <dt>Location:</dt>
-                <dd>{{photo.location_line}}</dd>
-              {% if photo.introduction_line %}
-                <dt>Introduced:</dt>
-                <dd>{{photo.introduction_line}}</dd>
-              {% endif %}
-                <dt>Date:</dt>
-                <dd>{{photo.date}}</dd>
-              </dl>
-            </div>
-          </div>
-        </div>
-        #}  
       {% endfor %}
       </div>
       {% if p.snippet %}
