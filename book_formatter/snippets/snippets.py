@@ -36,10 +36,11 @@ def _get_remote_snippet(name):
                          + ' (status code %s)' % r.status_code)
     j = json.loads(r.text)
     snippet = j['extract_html']
-    link = (" <a "
-            "href='https://en.wikipedia.org/wiki/%s' "
-            "class='snippet-link'"
-            ">Wikipedia</a>" % (name))
+    link = (' <a '
+            'href="https://en.wikipedia.org/wiki/%s" '
+            'class="snippet-link" '
+            'target="_blank"'
+            '>Wikipedia</a>' % (name))
     snippet = re.sub("</p>$", link, snippet)
     return snippet
 
