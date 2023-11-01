@@ -20,5 +20,12 @@ return {
     {'com.adobe.caption', height_in_lines = 3},
     'com.adobe.dateTimeOriginal',
     'com.adobe.GPS',
+    'com.adobe.exposure',
+    'com.adobe.ISOSpeedRating',
+    'com.adobe.focalLength',
+    'com.adobe.focalLength35mm',
+    'com.adobe.lens',
+    'com.adobe.model',
+    'com.adobe.folder',
   }
 }
