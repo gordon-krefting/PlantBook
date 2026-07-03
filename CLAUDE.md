@@ -29,8 +29,10 @@ poetry run pytest tests/test_loading.py::test_plant_count   # run a single test
 poetry run python main.py <local_path> <remote_host> <remote_path>   # run the site generator directly
 ```
 
-Note: `tests/test_snippets.py::test_get_remote_snippet` and `::test_get_snippet` hit the live
-Wikipedia API and can fail on network/rate-limit issues (e.g. 403) unrelated to code changes.
+Note: Wikipedia calls in `tests/test_snippets.py` are mocked, so `pytest tests/` is offline and
+deterministic by default (network-marked tests are excluded via `addopts` in `pyproject.toml`).
+`test_get_remote_snippet_live` hits the real Wikipedia API and can fail on network/rate-limit
+issues (e.g. 403) unrelated to code changes — run it explicitly with `pytest tests/ -m network`.
 
 There is no lint config in this repo — don't assume flake8/black/ruff are wired up.
 
