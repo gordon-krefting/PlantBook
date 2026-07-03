@@ -19,3 +19,9 @@ sortedcontainers = "^2.4.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = "-m 'not network'"
+markers = [
+    "network: hits the live Wikipedia API; excluded by default, run with -m network",
+]
