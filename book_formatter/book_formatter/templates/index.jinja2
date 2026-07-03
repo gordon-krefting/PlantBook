@@ -49,10 +49,10 @@
 
   {% macro photo(key, photo, plant_record) -%}
         <div class="col-sm-2 pswp-gallery__item" id="{{key}}-{{photo.safe_filename}}">
-          <a href="images/{{photo.safe_filename}}" data-pswp-width="{{photo.width}}" data-pswp-height="{{photo.height}}" target="_blank">
+          <a href="images/{{photo.safe_filename}}" data-pswp-width="{{photo.width}}" data-pswp-height="{{photo.height}}" target="_blank" style="display: block; padding: 10px;">
             <img src="thumbs/{{photo.safe_filename}}" alt="{{plant_record.scientific_name}}"
               height="{{photo.thumbnail_height}}" width="{{photo.thumbnail_width}}"
-              style="margin:10px; width: 150px; height: 150px; object-fit: cover;">
+              style="display: block; width: 100%; height: auto; max-width: 150px; aspect-ratio: 1 / 1; object-fit: cover;">
           </a>
           <div class="pswp-caption-content">
             <div class="photo-record">
