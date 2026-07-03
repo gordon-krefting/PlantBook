@@ -67,6 +67,7 @@ function exportServiceProvider.processRenderedPhotos(functionContext, exportCont
     if success then
       photoFileName = LrPathUtils.leafName(tempFilePathOrMessage)
       destinationPath = LrPathUtils.child(imagePath, photoFileName)
+      logger:trace('Copying ' .. tempFilePathOrMessage .. ' -> ' .. destinationPath)
 
       if LrFileUtils.exists(destinationPath) then
         LrFileUtils.delete(destinationPath)
@@ -76,6 +77,7 @@ function exportServiceProvider.processRenderedPhotos(functionContext, exportCont
       rendition:recordPublishedPhotoId(photoFileName)
       thumbsToCreate[#thumbsToCreate+1] = rendition.photo
     else
+      logger:error('Render failed for ' .. rendition.photo:getRawMetadata('path') .. ': ' .. tempFilePathOrMessage)
       error(tempFilePathOrMessage)
     end
     count = count + 1

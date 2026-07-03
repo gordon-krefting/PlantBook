@@ -1,6 +1,7 @@
 import argparse
 import json
 import logging
+import os
 import shutil
 import subprocess
 
@@ -11,6 +12,7 @@ from book_formatter.values import (
 from jinja2 import Environment, PackageLoader
 from os.path import dirname, join as joinpath
 
+os.makedirs('log', exist_ok=True)
 logging.basicConfig(
     filename='log/o.log',
     level=logging.INFO,
