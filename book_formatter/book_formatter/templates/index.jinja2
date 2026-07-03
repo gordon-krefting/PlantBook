@@ -267,6 +267,44 @@
         top: 0, bottom: 0, left: 0, right: 30
       };
 
+      // A click with detail === 0 was activated via keyboard (Enter/Space on a
+      // focused link) rather than a real mouse click. Track this, and which link
+      // triggered the currently-open lightbox, so that when it closes we can
+      // manually restore focus with an outline that reflects how the thumbnail
+      // was *opened* — not the browser's default :focus-visible heuristic, which
+      // is based on how the lightbox was just *closed* (e.g. Esc always looks like
+      // a keyboard interaction, even if the lightbox was opened with a mouse), and
+      // not PhotoSwipe's own focus handling, which only restores focus at all when
+      // it thinks the gallery was opened via keyboard.
+      let currentTriggerLink = null;
+
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('.pswp-gallery__item a');
+        if (link) {
+          link.dataset.openedViaKeyboard = (e.detail === 0) ? 'true' : 'false';
+          currentTriggerLink = link;
+        }
+      }, true);
+
+      function restoreThumbnailFocus() {
+        const link = currentTriggerLink;
+        currentTriggerLink = null;
+        if (!link) {
+          return;
+        }
+        if (link.dataset.openedViaKeyboard === 'true') {
+          link.style.outline = '2px solid #0d6efd';
+          link.style.outlineOffset = '2px';
+        } else {
+          link.style.outline = 'none';
+        }
+        link.focus({ preventScroll: true });
+        link.addEventListener('blur', () => {
+          link.style.outline = '';
+          link.style.outlineOffset = '';
+        }, { once: true });
+      }
+
       function createLightbox(tag) {
         const lightbox = new PhotoSwipeLightbox({
           showHideAnimationType: 'fade',
@@ -292,6 +330,8 @@
           var scrollDiv = document.getElementById(loc).offsetTop;
           window.scrollTo({ top: scrollDiv - 100, behavior: 'smooth'});
         });
+
+        lightbox.on('destroy', restoreThumbnailFocus);
 
         lightbox.init();
       }
