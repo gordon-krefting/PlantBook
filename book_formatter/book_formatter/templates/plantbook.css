@@ -114,3 +114,15 @@ a.snippet-link:link {
   outline-offset: 2px;
 }
 
+/* The vendored tabs library lays tabs out in a single non-wrapping flex row,
+   which squeezes every label into an unreadably narrow column on phone-width
+   screens. Let tabs that don't fit wrap onto additional rows instead, and
+   keep each label on one line rather than breaking mid-word. */
+.tab__list {
+  flex-wrap: wrap;
+}
+
+.tab__item {
+  white-space: nowrap;
+}
+
